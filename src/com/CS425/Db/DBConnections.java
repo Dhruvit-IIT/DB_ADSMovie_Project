@@ -8,12 +8,12 @@ import java.sql.SQLException;
 
 public class DBConnections implements Connections{
 
-	static Connection conn = null;
-	static PreparedStatement stmt = null;
-	static String query = "";
-	static ResultSet rs;
+	protected static Connection conn = null;
+	protected static PreparedStatement stmt = null;
+	protected static String query = "";
+	protected static ResultSet rs;
 
-	public static ResultSet openDbConnectionForSelect(String query){
+	protected static ResultSet openDbConnectionForSelect(String query){
 
 		try{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -27,7 +27,7 @@ public class DBConnections implements Connections{
 		return rs;
 	}
 	
-	public static int openDbConnectionForUpdate(String query){
+	protected static int openDbConnectionForUpdate(String query){
 		
 		int result = 0;
 		try{
@@ -42,7 +42,7 @@ public class DBConnections implements Connections{
 		return result;
 	}
 
-	public static void closeDbConnection(){
+	protected static void closeDbConnection(){
 		try{
 			rs.close();
 			stmt.close();
