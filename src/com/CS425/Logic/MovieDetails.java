@@ -37,7 +37,7 @@ public class MovieDetails {
 		switch(choice)
 		{
 		case 1:
-			buyTicket();
+			buyTicket(movie);
 			break;
 		case 2:
 			
@@ -49,10 +49,10 @@ public class MovieDetails {
 		
 	}
 	
-	public static void buyTicket()
+	public static void buyTicket(String movie)
 	{
 		MovieDetailSchedule mds= new MovieDetailSchedule();
-		mds.viewMovieSchedule();
+		mds.viewMovieSchedule(movie);
 		
 		
 	}
