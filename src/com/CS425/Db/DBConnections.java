@@ -10,7 +10,6 @@ public class DBConnections implements Connections{
 
 	protected static Connection conn = null;
 	protected static PreparedStatement stmt = null;
-	protected static String query = "";
 	protected static ResultSet rs;
 
 	protected static ResultSet openDbConnectionForSelect(String query){

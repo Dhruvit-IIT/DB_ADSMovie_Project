@@ -3,10 +3,10 @@ package com.CS425.Logic;
 import java.util.Scanner;
 
 import com.CS425.Db.FetchData;
+import com.CS425.bean.UserCCDetails;
+import com.CS425.bean.UserDetails;
 
 public class AppHome {
-
-	Scanner sc;
 
 	public static void main(String args[]){
 
@@ -16,13 +16,15 @@ public class AppHome {
 
 	public void displayAppHomePage(){
 
-		sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
+		boolean breakWhile = false;
 		int option;
-		String username;
-		String pass;
-		FetchData data;
-		
-		while(true){
+		String email, pass, movie, theatre;
+		FetchData data =  new FetchData();;
+		UserDetails userD;
+		UserCCDetails userCC;
+
+		while(!breakWhile){
 			System.out.println("*********Welcome to ADSMovies*********\n");
 			System.out.println("-----------Menu-------------");
 			System.out.println("1. Login\n2. Sign Up\n3. Search Movie\n4. Search Theatre\n5. Queries\n6. Exit");
@@ -31,26 +33,54 @@ public class AppHome {
 
 			switch(option){
 			case 1:
-				System.out.println("Enter user name: ");
-				username = sc.nextLine();
-				System.out.println("Enter password: ");
-				pass = sc.nextLine();
-				data = new FetchData();
-				if(data.validateUserLogin(username, pass)){
-					System.out.println("User is valid");
-					continue;
-				}// if
-				else{
-					System.out.println("Username not found or incorrect password.");
-					continue;
-				} //else
+				while(true){
+					System.out.print("Enter email Id: ");
+					email = sc.nextLine();
+					System.out.print("Enter password: ");
+					pass = sc.nextLine();
+					if(data.validateUserLogin(email, pass)){
+						userD = data.getUserDetails(email);
+						userCC = data.getUserCCDetails();
+
+						/* call user home page function. Pass userD and userCC*/
+						break;
+					}// if
+					else{
+						System.out.println("**Username not found or incorrect password.**\n");
+					} //else
+				} //while
 			case 2:
-				
+				System.out.println("#SIGN UP#\n");
+			case 3:
+				while(true){
+					System.out.println("Enter Movie name: ");
+					movie = sc.nextLine();
+					if(data.validateMovie(movie)){
+						/*Pass movie and userD to Sahil*/
+						break;
+					}// if
+					else
+						System.out.println("**Movie not found.**\n");
+				} //while
+			case 4:
+				while(true){
+					System.out.println("Enter Theatre name: ");
+					theatre = sc.nextLine();
+					if(data.validateTheatre(theatre)){
+						/*Pass theatre and userD to Sahil*/
+						break;
+					}// if
+					else
+						System.out.println("**Theatre not found.**\n");
+				} //while
+			case 5:
+				/* Queries result will come here*/
+			case 6:
+				System.out.println("Good Bye!!!!");
+				breakWhile = true;
+				sc.close();
+				break;
 			} // switch
 		} // while
-	}
-	
-	public boolean validateUserLogin(String username, String pass){
-		return true;
 	}
 }
