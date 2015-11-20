@@ -137,7 +137,7 @@ public class AppHome {
 			userCC = new UserCCDetails(cardType, cardNumber, expiry, nameOnCard);
 			
 			if(data.insertUserDetails(user, userCC) && data.insertUserLoginDetails(email, password)){
-				System.out.println("User registered succesfully. Redirecting to home page\n.");
+				System.out.println("User registered succesfully. Redirecting to home page.\n");
 				try {
 					TimeUnit.SECONDS.sleep(3);
 				} catch (InterruptedException e) {
