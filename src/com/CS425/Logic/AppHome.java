@@ -1,11 +1,5 @@
 package com.CS425.Logic;
 
-import java.io.Console;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -30,9 +24,7 @@ public class AppHome {
 		FetchData data =  new FetchData();;
 		UserDetails userD;
 		UserCCDetails userCC;
-		//TheatreDetails td;
-		//MovieDetails tm;
-
+		
 		while(!breakWhile){
 			System.out.println("*********Welcome to ADSMovies*********\n");
 			System.out.println("-----------Menu-------------");
@@ -50,8 +42,8 @@ public class AppHome {
 					if(data.validateUserLogin(email, pass)){
 						userD = data.getUserDetails(email);
 						userCC = data.getUserCCDetails();
-
-						/* call user home page function. Pass userD and userCC*/
+						System.out.println("Successfully logged in");
+						//anas.userHomeMenu(userD, userCC);
 						break;
 					}// if
 					else{
@@ -68,8 +60,7 @@ public class AppHome {
 					System.out.println("Enter Movie name: ");
 					movie = sc.nextLine();
 					if(data.validateMovie(movie)){
-						//tm = new MovieDetails();
-						//tm.viewMovieDetails(movie);
+						MovieDetails.viewMovieDetail(movie);
 						break;
 					}// if
 					else
@@ -81,8 +72,7 @@ public class AppHome {
 					System.out.println("Enter Theatre name: ");
 					theatre = sc.nextLine();
 					if(data.validateTheatre(theatre)){
-						//td = new TheatreDetails();
-						//td.viewTheatreDetails(theatre);
+						TheatreDetails.viewTheatreDetails(theatre);
 						break;
 					}// if
 					else
@@ -119,14 +109,6 @@ public class AppHome {
 
 			System.out.print("Date of Birth(MM-DD-YYYY)");
 			String dob=sc.nextLine();
-			DateFormat format = new SimpleDateFormat("MM-DD-YYYY", Locale.ENGLISH);
-			Date date = null;
-			try {
-				date = (Date) format.parse(dob);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 			System.out.print("Email: ");
 			String email=sc.nextLine();
@@ -151,11 +133,11 @@ public class AppHome {
 			System.out.print("Password: ");
 			String password = sc.nextLine();
 
-			user = new UserDetails(name, address, phone, date, email, gender, 0, 0, "Silver", "Non-staff");
+			user = new UserDetails(name, address, phone, dob, email, gender, 0, 0, "Silver", "Non-staff");
 			userCC = new UserCCDetails(cardType, cardNumber, expiry, nameOnCard);
 			
 			if(data.insertUserDetails(user, userCC) && data.insertUserLoginDetails(email, password)){
-				System.out.println("User registered succesfully. Redirecting to home page.");
+				System.out.println("User registered succesfully. Redirecting to home page\n.");
 				try {
 					TimeUnit.SECONDS.sleep(3);
 				} catch (InterruptedException e) {

@@ -8,7 +8,7 @@ public class UserDetails {
 	private String userName;
 	private String address;
 	private String phone;
-	private Date dateOfBirth;
+	private String dateOfBirth;
 	private String emailId;
 	private String gender;
 	private int creditPoints;
@@ -16,7 +16,7 @@ public class UserDetails {
 	private String status;
 	private String role;
 	
-	public UserDetails(String userName, String address, String phone, Date date,
+	public UserDetails(String userName, String address, String phone, String date,
 			String emailId, String gender, int creditPoints,
 			int memberShipPoints, String status, String role) {
 		super();
@@ -48,7 +48,7 @@ public class UserDetails {
 		return address;
 	}
 
-	public Date getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 
