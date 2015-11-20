@@ -11,6 +11,7 @@ public class DBConnections implements Connections{
 	protected static Connection conn = null;
 	protected static PreparedStatement stmt = null;
 	protected static ResultSet rs;
+	protected static String query;
 
 	protected static ResultSet openDbConnectionForSelect(String query){
 
@@ -25,9 +26,9 @@ public class DBConnections implements Connections{
 		}
 		return rs;
 	}
-	
+
 	protected static int openDbConnectionForUpdate(String query){
-		
+
 		int result = 0;
 		try{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -43,7 +44,8 @@ public class DBConnections implements Connections{
 
 	protected static void closeDbConnection(){
 		try{
-			rs.close();
+			if(rs != null)
+				rs.close();
 			stmt.close();
 			conn.close();
 		}catch(Exception se){

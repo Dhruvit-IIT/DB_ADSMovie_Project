@@ -37,7 +37,7 @@ public class FetchData {
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while(rs.next()){
-				userD = new UserDetails(rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), 
+				userD = new UserDetails(rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5).toString(), rs.getString(6), 
 						rs.getString(7), rs.getInt(9), rs.getInt(10), rs.getString(10), rs.getString(11));
 				userD.setMemberId(rs.getInt(1));
 				//rs.close();	
@@ -70,6 +70,8 @@ public class FetchData {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
 		}
 		return false;
 	}
@@ -88,17 +90,56 @@ public class FetchData {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
 		}
 		return false;
 	}
 
 	public boolean insertUserDetails(UserDetails user, UserCCDetails userCC) {
-		return false;
-		// TODO Auto-generated method stub
+
+		int memberId = 0;
+		query = "insert into UserRegistration values (seq_member.nextval, '" +user.getUserName() + "', '" + user.getPhone() + "', '" +
+				user.getAddress() + "', to_date('" + user.getDateOfBirth() + "','MM/DD/YYYY'), '" + user.getEmailId() + "', '" + user.getGender() + "')";
+		int result1 = DBConnections.openDbConnectionForUpdate(query);
+		if(result1 == 0){
+			DBConnections.closeDbConnection();
+			return false;
+		}
+		DBConnections.closeDbConnection();
+		
+		query = "select member_id from UserRegistration where email = '" + user.getEmailId() + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				memberId = rs.getInt("member_id");
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
+		}
+		
+		query = "insert into membership values (" + memberId + ", '" + user.getCreditPoints() + "', '" + user.getMemberShipPoints()
+				+ "', '" + user.getStatus() + "', '" + user.getRole() + "')";
+		int result2 = DBConnections.openDbConnectionForUpdate(query);
+		if(result2 == 0){
+			DBConnections.closeDbConnection();
+			return false;
+		}
+		DBConnections.closeDbConnection();
+		return true;
 	}
 
 	public boolean insertUserLoginDetails(String email, String password) {
+
+		query = "insert into memberlogin values ('" + email + "', '" + password + "')";
+		int result = DBConnections.openDbConnectionForUpdate(query);
+		if(result != 0)
+			return true;
+		DBConnections.closeDbConnection();
 		return false;
-		// TODO Auto-generated method stub
 	}
 }
