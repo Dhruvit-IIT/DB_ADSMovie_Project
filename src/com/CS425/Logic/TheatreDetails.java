@@ -33,15 +33,15 @@ public class TheatreDetails {
 		switch(choice)
 		{
 		case 1:
-			buyTicket();
+			buyTicket(theatre);
 
 		}
 	}
 
-	public static void buyTicket()
+	public static void buyTicket(String theatre)
 	{
 		TheatreDetailSchedule tds=new TheatreDetailSchedule();
-		tds.viewTheatreSchedule();
+		tds.viewTheatreSchedule(theatre);
 	}
 
 }

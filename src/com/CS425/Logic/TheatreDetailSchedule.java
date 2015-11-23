@@ -1,10 +1,15 @@
 package com.CS425.Logic;
 
+import com.CS425.Db.DBTheatreDetails;
+
 public class TheatreDetailSchedule {
 	
-	public static void viewTheatreSchedule()
+	public static void viewTheatreSchedule(String theatre)
 	{
-		System.out.println("Theatre schedule is as follows");
+		DBTheatreDetails.getTheatreSchedule(theatre);
+		
+		
+		
 	}
 	
 	

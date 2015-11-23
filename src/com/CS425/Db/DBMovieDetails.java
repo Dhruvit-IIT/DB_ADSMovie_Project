@@ -2,12 +2,14 @@ package com.CS425.Db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class DBMovieDetails {
 
 	static ResultSet rs;
 	static int result;
-
+	
+	
 
 	public static void getMovieDetails(String movie){
 		DBConnections.query = "select * from movie where title='"+movie+"'";
@@ -46,9 +48,30 @@ public class DBMovieDetails {
 				System.out.println("Price: "+rs.getString(3));
 				System.out.println("Day: "+rs.getString(4));
 				System.out.println("Screen Number: "+rs.getString(5));
-				System.out.println("Capacity: "+rs.getString(6));
+				System.out.println("Seats Available: "+rs.getString(6));
+				
+				
 				
 			}
+			
+			Scanner sc=new Scanner(System.in);
+			System.out.println("Enter the theatre name");
+			
+			String name=sc.nextLine();
+			System.out.println("Enter the time");
+			String time=sc.nextLine();
+			System.out.println();
+			System.out.println("Enter the quantity");
+			int quantity=Integer.parseInt(sc.nextLine());
+			
+			if(name.equals(rs.getString(7)) && time.equals(rs.getString(1)) && quantity<=Integer.parseInt(rs.getString(2)))
+			{
+				
+					System.out.println("Success");
+				
+				
+			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
