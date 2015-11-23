@@ -85,6 +85,8 @@ public class DBMovieDetails {
 				
 			}*/
 			
+			
+			
 			System.out.println();
 			
 			java.util.Iterator<String> itr=a1.iterator();
@@ -93,7 +95,7 @@ public class DBMovieDetails {
 			{
 				if(name.equals(itr.next()) && a2.contains(time))
 				{
-					System.out.println("The order details are as follows");
+					
 					DBOrderDetails.OrderDeatils();
 				}
 			}
