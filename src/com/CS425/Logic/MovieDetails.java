@@ -1,22 +1,15 @@
 package com.CS425.Logic;
 
 import java.util.Scanner;
-
 import com.CS425.Db.DBMovieDetails;
-import com.CS425.Db.Sample;
 
 public class MovieDetails {
 		
-	
-	
 	public static void main(String args[])
 	{
 		MovieDetails.viewMovieDetail("Minions");
 		
 	}
-	
-	
-	
 	
 	public static void viewMovieDetail(String movie)
 	{	

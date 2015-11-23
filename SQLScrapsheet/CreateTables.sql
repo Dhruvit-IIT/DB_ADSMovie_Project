@@ -116,17 +116,11 @@ Foreign key (member_id) references UserRegistration(member_id)
 
 create table Credit_Card_Details
 (
+member_id int,
 card_number VARCHAR2(512) primary key,
 type varchar(100) not null,
 expiry varchar(50) not null,
 name_on_card varchar(255) not null
-);
-
-create table Credit_Card
-(
-member_id int,
-card_number VARCHAR2(512),
-primary key(member_id, card_number)
 );
 
 CREATE TABLE OrderDetails
