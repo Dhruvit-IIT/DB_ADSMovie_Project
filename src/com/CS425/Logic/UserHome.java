@@ -8,7 +8,7 @@ import com.CS425.bean.*;
 public class UserHome
 {
 	int option;
-	
+	//need to get credit card details as well
 	public void userHomeMenu(UserDetails userDetails)
 	{
 		System.out.printf("**************Welcome %s **************%n", userDetails.getUserName());
