@@ -137,8 +137,10 @@ public class FetchData {
 
 		query = "insert into memberlogin values ('" + email + "', '" + password + "')";
 		int result = DBConnections.openDbConnectionForUpdate(query);
-		if(result != 0)
+		if(result != 0){
+			DBConnections.closeDbConnection();
 			return true;
+		}
 		DBConnections.closeDbConnection();
 		return false;
 	}
