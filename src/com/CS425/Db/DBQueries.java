@@ -52,4 +52,78 @@ public static void movieRecommendations(int memberId)
 }
 
 
+public static void viewProfile(int memberId)
+{
+	ResultSet rs;
+	String str = "select u.name, u.phone, u.address, u.date_of_birth, u.email, u.gender, m.credit_points, m.member_points, m.status, m.role from userregistration u , membership m where u.member_id = m.member_id  and u.member_id =  " + memberId;
+	DBConnections.query = str;
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	try {
+		
+		
+		System.out.println("----------------------------------------------\n");
+		
+		while(rs.next())
+		{
+			String name = rs.getString(1);
+			String phone = rs.getString(2);
+			String address = rs.getString(3);
+			String dob = rs.getString(4);
+			String email = rs.getString(5);
+			String gender = rs.getString(6);
+			int credit_points = rs.getInt(7);
+			int member_points = rs.getInt(8);
+			String status = rs.getString(9);
+			
+			System.out.println("Name : " + name);
+			System.out.println("Phone Number : " + phone);
+			System.out.println("Address : " + address);
+			System.out.println("Date of Birth : " + dob.substring(0, 11));
+			System.out.println("E-mail : " + email);
+			System.out.println("Gender : " + gender);
+			System.out.println("Available credit Points : " + credit_points);
+			System.out.println("Total points : " + member_points);
+			System.out.println("Membership status : " + status);
+			
+			
+		}
+			
+		System.out.println("----------------------------------------------\n");
+				
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
 }
+
+
+public static void updateProfile(int memberId, int option, String value)
+{
+	
+	String str1 = "update userregistration set phone = '" + value +"' where member_id = " + memberId;
+	String str2 = "update userregistration set address = '" + value +"' where member_id = " + memberId;
+	
+	if(option == 1)
+		DBConnections.query = str1;
+	if(option ==2)
+		DBConnections.query = str2;
+	
+	
+	int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);
+	
+	DBConnections.closeDbConnection();
+	
+	if(ret == 1)
+	{
+		System.out.println("\nProfile updated\n");
+		System.out.println("\nYour Account details :");
+		viewProfile(memberId);
+	}
+			
+	
+	}
+}
+

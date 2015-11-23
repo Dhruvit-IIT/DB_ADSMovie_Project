@@ -12,17 +12,19 @@ public class UserHome
 	public void userHomeMenu(UserDetails userDetails)
 	{
 		System.out.printf("**************Welcome %s **************%n", userDetails.getUserName());
-		System.out.println("---------------------------------------");
+		System.out.println("----------------------------------------------");
 		boolean flag = true;
 		Scanner input = new Scanner(System.in);
 		
 		/*Recommendations*/
 		DBQueries.movieRecommendations(userDetails.getMemberId());
 		
+		System.out.println("----------------------------------------------");
 		
 		while(flag)
 		{
-			System.out.println("Please enter option number from below menu : ");
+			System.out.println("\nPlease enter option number from below menu : \n");
+			System.out.println("----------------------------------------------");
 			System.out.println("1 - View/Edit Profile");
 			System.out.println("2 - View Orders");
 			System.out.println("3 - Search Movie");
@@ -35,7 +37,9 @@ public class UserHome
 			case 1:
 				{
 					ViewEditProfile vep = new ViewEditProfile();
-					vep.viewEditProfile(userDetails);
+					boolean ret = vep.viewEditProfile(userDetails);
+					flag = ret;
+						
 					break;
 				}
 			case 2:
@@ -57,7 +61,7 @@ public class UserHome
 				}
 			default :
 				{
-					System.out.println("Please select from one of the provided option");
+					System.out.println("Please select from one of the provided option\n");
 					break;
 				}
 			}

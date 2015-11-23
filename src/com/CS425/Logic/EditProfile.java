@@ -5,27 +5,23 @@ import java.util.Scanner;
 import com.CS425.Db.DBQueries;
 import com.CS425.bean.UserDetails;
 
-public class ViewEditProfile
+public class EditProfile
 {
 	int option;
+		
 	
-	public boolean viewEditProfile(UserDetails userDetails)
+	public boolean editProfile(UserDetails userDetails)
 	{
-		System.out.println("\nYour Account details :");
-		
-		DBQueries.viewProfile(userDetails.getMemberId());
-		
 		boolean flag = true;
-		
 		Scanner input = new Scanner(System.in);
-		
 		while(flag)
 		{
 			System.out.println("\nPlease enter option number from below menu : \n");
 			System.out.println("----------------------------------------------");
-			System.out.println("1 - Edit profile");
-			System.out.println("2 - Previous Menu");
-			System.out.println("3 - Logout");
+			System.out.println("1 - Update phone number ");
+			System.out.println("2 - Update address ");
+			System.out.println("3 - Previous Menu");
+			System.out.println("4 - Logout");
 			
 			option = Integer.parseInt(input.nextLine());
 			
@@ -33,18 +29,25 @@ public class ViewEditProfile
 			{
 			case 1:
 				{
-					EditProfile ep = new EditProfile();
-					boolean ret = ep.editProfile(userDetails);
-					flag = ret;
+					System.out.println("Enter new phone number :");
+					String value = input.nextLine();
+					DBQueries.updateProfile(userDetails.getMemberId(), option, value);
 					break;
 				}
 			case 2:
+				{
+					System.out.println("Enter new address :");
+					String value = input.nextLine();
+					DBQueries.updateProfile(userDetails.getMemberId(), option, value);
+					break;
+				}
+			case 3:
 				{
 					flag = false;
 					return true;
 					
 				}
-			case 3:
+			case 4:
 				{
 					flag = false;
 					return false;
@@ -62,4 +65,5 @@ public class ViewEditProfile
 		return true;
 		
 	}
+	
 }
