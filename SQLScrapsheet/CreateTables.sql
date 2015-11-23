@@ -129,7 +129,9 @@ CREATE TABLE OrderDetails
   quantity INT not null,
   card_no VARCHAR(20) not null,
   schedule_id INT,
-  FOREIGN KEY (schedule_id) REFERENCES Schedule (schedule_id)
+  movie_id INT,
+  FOREIGN KEY (schedule_id) REFERENCES Schedule (schedule_id),
+  FOREIGN KEY (movie_id) REFERENCES Movie (movie_id)
 );
 
 CREATE TABLE Purchase
