@@ -78,7 +78,7 @@ public class FetchData {
 
 	public boolean validateTheatre(String theatre) {
 
-		query = "select count(*) from Theatre where title = '" + theatre + "'";
+		query = "select count(*) from Theatre where name = '" + theatre + "'";
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while(rs.next()){
