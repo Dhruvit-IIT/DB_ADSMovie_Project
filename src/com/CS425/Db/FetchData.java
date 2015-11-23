@@ -144,4 +144,22 @@ public class FetchData {
 		DBConnections.closeDbConnection();
 		return false;
 	}
+
+	public void appHomeMovieReco() {
+		
+		query = "select title from movie where now_showing = 1 and rating > (select avg(rating) from movie where now_showing = 1) and rownum <= 5 order by rating desc";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		
+		try {
+			while(rs.next())
+				System.out.println(rs.getString("title"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void getUserOrderHistory() {
+		
+	}
 }

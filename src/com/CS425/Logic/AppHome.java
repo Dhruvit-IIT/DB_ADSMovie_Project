@@ -27,6 +27,9 @@ public class AppHome {
 		
 		while(!breakWhile){
 			System.out.println("*********Welcome to ADSMovies*********\n");
+			System.out.println("----------Featured Movies-----------");
+			data.appHomeMovieReco();
+			System.out.println("------------------------------------\n");
 			System.out.println("-----------Menu-------------");
 			System.out.println("1. Login\n2. Sign Up\n3. Search Movie\n4. Search Theatre\n5. Queries\n6. Exit");
 			System.out.println("----------------------------");
@@ -39,11 +42,12 @@ public class AppHome {
 					email = sc.nextLine();
 					System.out.print("Enter password: ");
 					pass = sc.nextLine();
+					UserHome uHome;
 					if(data.validateUserLogin(email, pass)){
 						userD = data.getUserDetails(email);
 						userCC = data.getUserCCDetails();
-						System.out.println("Successfully logged in");
-						//anas.userHomeMenu(userD, userCC);
+						uHome = new UserHome();
+						//uHome.userHomeMenu(userD, userCC);
 						break;
 					}// if
 					else{
