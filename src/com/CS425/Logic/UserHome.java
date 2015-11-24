@@ -9,7 +9,7 @@ public class UserHome
 {
 	int option;
 	//need to get credit card details as well
-	public void userHomeMenu(UserDetails userDetails)
+	public void userHomeMenu(UserDetails userDetails, UserCCDetails ccDetails)
 	{
 		System.out.printf("**************Welcome %s **************%n", userDetails.getUserName());
 		System.out.println("----------------------------------------------");
