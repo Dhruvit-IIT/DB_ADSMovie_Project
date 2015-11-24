@@ -39,11 +39,12 @@ public class UserHome
 					ViewEditProfile vep = new ViewEditProfile();
 					boolean ret = vep.viewEditProfile(userDetails);
 					flag = ret;
-						
 					break;
 				}
 			case 2:
 				{
+					UserOrderHistory uOrder = new UserOrderHistory();
+					flag = uOrder.viewOrderHistory(userDetails.getMemberId());
 					break;
 				}
 			case 3:

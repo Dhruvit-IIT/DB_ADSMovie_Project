@@ -36,6 +36,8 @@ public class ViewEditProfile
 					EditProfile ep = new EditProfile();
 					boolean ret = ep.editProfile(userDetails);
 					flag = ret;
+					if(flag == false)
+						return false;
 					break;
 				}
 			case 2:

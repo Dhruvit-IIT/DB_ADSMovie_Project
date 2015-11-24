@@ -165,12 +165,12 @@ public class FetchData {
 		
 		ArrayList<OrderDetails> orderHistory = new ArrayList<OrderDetails>();
 		OrderDetails order;
-		query = "select o.order_id, m.title, t.name, t.location, s.day, s.schedule_time, o.quantity from" +
-				"Purchase p inner join OrderDetails o on o.order_id = p.order_id inner join" +
-				"Schedule s on o.schedule_id = s.schedule_id inner join" +
-				"Screen sc on s.screen_id = sc.screen_id inner join" +
-				"Theatre t on sc.theatre_id = t.theatre_id inner join" +
-				"Movie m on o.movie_id = m.movie_id where p.member_id =" + memberId;
+		query = "select o.order_id, m.title, t.name, t.location, s.day, s.schedule_time, o.quantity from " +
+				"Purchase p inner join OrderDetails o on o.order_id = p.order_id inner join " +
+				"Schedule s on o.schedule_id = s.schedule_id inner join " +
+				"Screen sc on s.screen_id = sc.screen_id inner join " +
+				"Theatre t on sc.theatre_id = t.theatre_id inner join " +
+				"Movie m on o.movie_id = m.movie_id where p.member_id = " + memberId;
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while(rs.next()){

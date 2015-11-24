@@ -16,6 +16,7 @@ public class UserOrderHistory {
 		Scanner sc = new Scanner(System.in);
 		ArrayList<OrderDetails> orderHistory = new ArrayList<OrderDetails>();
 		orderHistory = data.getUserOrderHistory(memberId);
+		OrderDetails order;
 
 		System.out.println("\n-----------Order History---------");
 		if(orderHistory == null)
@@ -24,13 +25,14 @@ public class UserOrderHistory {
 			System.out.println("Order ID\tMovie Name\tTheatre Name\tTheatre Location\tDay\tTime\tQuantity");
 			Iterator<OrderDetails> orderItr = orderHistory.iterator();
 			while(orderItr.hasNext()){
-				System.out.print(orderItr.next().getOrderId() + "\t");
-				System.out.print(orderItr.next().getMovieName() + "\t");
-				System.out.print(orderItr.next().getTheatreName() + "\t");
-				System.out.print(orderItr.next().getTheatreLocation() + "\t");
-				System.out.print(orderItr.next().getDay() + "\t");
-				System.out.print(orderItr.next().getTime() + "\t");
-				System.out.print(orderItr.next().getQuantity() + "\t");
+				order = orderItr.next();
+				System.out.print(order.getOrderId() + "\t");
+				System.out.print(order.getMovieName() + "\t");
+				System.out.print(order.getTheatreName() + "\t");
+				System.out.print(order.getTheatreLocation() + "\t");
+				System.out.print(order.getDay() + "\t");
+				System.out.print(order.getTime() + "\t");
+				System.out.print(order.getQuantity() + "\t");
 			}// While
 		}
 
@@ -41,10 +43,8 @@ public class UserOrderHistory {
 		while(true){
 			switch(option){
 			case 1:
-				sc.close();
 				return true;
 			case 2:
-				sc.close();
 				return false;
 			default:
 				System.out.println("Select appropriate option.");

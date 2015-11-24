@@ -47,7 +47,7 @@ public class AppHome {
 						userD = data.getUserDetails(email);
 						userCC = data.getUserCCDetails();
 						uHome = new UserHome();
-						//uHome.userHomeMenu(userD, userCC);
+						uHome.userHomeMenu(userD, userCC);
 						break;
 					}// if
 					else{
