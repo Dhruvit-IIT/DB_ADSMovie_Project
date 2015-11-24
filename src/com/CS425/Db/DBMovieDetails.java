@@ -3,9 +3,11 @@ package com.CS425.Db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
+
+import com.CS425.bean.OrderDetails;
 
 public class DBMovieDetails {
 
@@ -38,7 +40,7 @@ public class DBMovieDetails {
 
 	public static void displayMovieSchedule(String movie)
 	{
-		DBConnections.query = "select s1.schedule_time, s1.availability, s1.price, s1.day, s2.screen_number, s2.capacity, t1.name"
+		DBConnections.query = "select s1.schedule_time, s1.availability, s1.price, s1.day, s2.screen_number, s2.capacity, t1.name, s1.schedule_id"
 				+ " from Schedule s1 inner join screen s2 on s1.screen_id=s2.screen_id "
 				+ "inner join theatre t1 on t1.theatre_id=s2.theatre_id "
 				+ "where s2.screen_id IN (Select screen_id from Screen "
@@ -86,7 +88,6 @@ public class DBMovieDetails {
 			}*/
 			
 			
-			
 			System.out.println();
 			
 			java.util.Iterator<String> itr=a1.iterator();
@@ -95,8 +96,13 @@ public class DBMovieDetails {
 			{
 				if(name.equals(itr.next()) && a2.contains(time))
 				{
+					System.out.println("Movie: "+movie);
+					System.out.println("Theatre: "+name);
+					System.out.println("Quantity: "+quantity);
+					System.out.println("Time: "+time);
 					
-					DBOrderDetails.OrderDeatils();
+					
+					
 				}
 			}
 		
