@@ -1,10 +1,13 @@
 package com.CS425.bean;
 
+import java.sql.Date;
+
 public class UserDetails {
 	
 	private int memberId;
 	private String userName;
 	private String address;
+	private String phone;
 	private String dateOfBirth;
 	private String emailId;
 	private String gender;
@@ -13,13 +16,14 @@ public class UserDetails {
 	private String status;
 	private String role;
 	
-	public UserDetails(String userName, String address, String dateOfBirth,
+	public UserDetails(String userName, String address, String phone, String date,
 			String emailId, String gender, int creditPoints,
 			int memberShipPoints, String status, String role) {
 		super();
 		this.userName = userName;
 		this.address = address;
-		this.dateOfBirth = dateOfBirth;
+		this.phone = phone;
+		this.dateOfBirth = date;
 		this.emailId = emailId;
 		this.gender = gender;
 		this.creditPoints = creditPoints;
@@ -70,5 +74,9 @@ public class UserDetails {
 
 	public String getRole() {
 		return role;
+	}
+	
+	public String getPhone() {
+		return phone;
 	}
 }
