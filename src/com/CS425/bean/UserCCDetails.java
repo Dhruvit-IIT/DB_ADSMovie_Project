@@ -16,7 +16,24 @@ public class UserCCDetails {
 		this.expiry = expiry;
 		this.nameOnCard = nameOnCard;
 	}
-	
-	
 
+	public int getMemberId() {
+		return memberId;
+	}
+
+	public String getCardType() {
+		return cardType;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public String getExpiry() {
+		return expiry;
+	}
+
+	public String getNameOnCard() {
+		return nameOnCard;
+	}
 }
