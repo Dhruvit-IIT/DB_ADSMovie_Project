@@ -59,7 +59,7 @@ like_count int not null,
 credit_given number(1) not null,
 foreign key (member_id) references UserRegistration
 );
-
+select * from ORDERDETAILS
 /*Queries 8 to 16*/
 
 create table MovieReview
