@@ -103,6 +103,7 @@ public class TheatreDetails {
 				else
 					return DBTheatreDetails.purchaseTicketViaCC(selectedMovie, quantity, userD, userCC);
 			}// if
+			return DBTheatreDetails.purchaseTicketViaCreditPoints(selectedMovie, quantity, userD, userCC);
 		}// if(redeemPoints) 
 		return DBTheatreDetails.purchaseTicketViaCC(selectedMovie, quantity, userD, userCC);
 	}// function
