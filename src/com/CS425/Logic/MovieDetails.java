@@ -47,7 +47,7 @@ public class MovieDetails {
 	public static void buyTicket(String movie)
 	{
 		MovieDetailSchedule mds= new MovieDetailSchedule();
-		mds.viewMovieSchedule(movie);
+		mds.viewMovieSchedule(movie, );
 		
 		
 	}

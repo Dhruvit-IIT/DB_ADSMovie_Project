@@ -10,12 +10,14 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 import com.CS425.Logic.MovieDetailSchedule;
 import com.CS425.bean.OrderDetails;
 import com.CS425.bean.TheatreSchedule;
+import com.CS425.bean.UserCCDetails;
+import com.CS425.bean.UserDetails;
 
 public class DBMovieDetails {
 
 	static ResultSet rs;
 	static int result;
-	
+
 	static ArrayList<String> theatreName= new ArrayList<String>();
 	static ArrayList<String> a2= new ArrayList<String>();
 	static ArrayList<String> a3= new ArrayList<String>();
@@ -53,16 +55,16 @@ public class DBMovieDetails {
 		try {
 			while(rs.next())
 			{	
-				
+
 				theatreSchedule=new TheatreSchedule(rs.getString(7), rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(8));
-				
+
 				theatreDetails.add(theatreSchedule);
-				
-				
-				
-				
+
+
+
+
 			}
-					
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,6 +72,181 @@ public class DBMovieDetails {
 			DBConnections.closeDbConnection();
 		}
 		return theatreDetails;
+	}
+
+	public static void purchaseTicket(String movie, int quantity, String day, UserCCDetails userC, UserDetails userD, TheatreSchedule temp) 
+	{
+		// TODO Auto-generated method stub
+		int movie_id = 0;
+		int order_id=0;
+
+		DBConnections.query="Select movie_id from movie where title='"+movie+"'";
+		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+
+		try {
+			while(rs.next())
+			{
+				movie_id=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			DBConnections.closeDbConnection();
+		}
+
+
+
+		DBConnections.query="insert into orderdetails values (seq_order.nextval,"+quantity+","
+				+userC.getCardNumber()+","+temp.getScheduleId()+", "+movie_id+", sysdate )";
+
+		//To be continued
+
+		int result=DBConnections.openDbConnectionForUpdate(DBConnections.query);
+
+
+
+		DBConnections.query="select order_id from orderdetails where card_no = "+userC.getCardNumber()+" and schedule_id = " +temp.getScheduleId()+" order by order_id";
+
+		try {
+			while(rs.next())
+			{
+				order_id=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			DBConnections.closeDbConnection();
+		}
+
+
+		if(result==1)
+		{
+			DBConnections.query="insert into purchase values (" + userD.getMemberId()+", " + order_id +")";
+
+			int purchased=DBConnections.openDbConnectionForUpdate(DBConnections.query);
+
+			if(purchased==1)
+			{
+				DBConnections.query="update schedule set availability = availability- "+ quantity +" where schedule_id=" + temp.getScheduleId();
+			}
+
+
+		}
+
+	}	
+
+
+	/*public static void purchaseTicketViaCreditPoints( String movie, int quantity,String day, UserDetails userD, UserCCDetails userCC) {
+
+		int movieId = 0;
+		int order_id = 0;
+
+		String query = "select movie_id from Movie where title= '" + selectedMovie.getMovieName() + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				movieId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
+		}
+		query = "insert into OrderDetails values (seq_order.nextval, " + quantity + ", '" + userCC.getCardNumber() + "', " + 
+				selectedMovie.getScheduleId() + ", " + movieId + ", sysdate)";
+		int result = DBConnections.openDbConnectionForUpdate(query);
+		if(result == 0)
+			return false;
+		else{
+			query = "select order_id from OrderDetails where card_no = " + userCC.getCardNumber() + " and schedule_id = " + 
+					selectedMovie.getScheduleId() + "order by order_id";
+			rs = DBConnections.openDbConnectionForSelect(query);
+			try {
+				while (rs.next()){
+					order_id = rs.getInt(1);
+					break;
+				}// while
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				DBConnections.closeDbConnection();
+			}
+			query = "insert into Purchase values (" + userD.getMemberId() + ", " + order_id + ")";
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+
+			query = "update Schedule set availability = availability - " + quantity + " where schedule_id = " + selectedMovie.getScheduleId();
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+			int deductCredit = selectedMovie.getPrice() * quantity;
+			query = "update membership set credit_points = credit_points - " + deductCredit + " where member_id = " + userD.getMemberId();
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+		}// else
+		return true;
+	}
+*/
+	public static void purchaseTicketViaCreditPoints(String movie, int quantity, String day, UserCCDetails userC,
+			UserDetails userD, TheatreSchedule temp) {
+		// TODO Auto-generated method stub
+		
+		
+		int movieId = 0;
+		int order_id = 0;
+
+		String query = "select movie_id from Movie where title= '" + movie + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				movieId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
+		}
+		query = "insert into OrderDetails values (seq_order.nextval, " + quantity + ", '" + userC.getCardNumber() + "', " + 
+				temp.getScheduleId() + ", " + movieId + ", sysdate)";
+		int result = DBConnections.openDbConnectionForUpdate(query);
+		if(result==1)
+		{
+			query = "select order_id from OrderDetails where card_no = " + userC.getCardNumber() + " and schedule_id = " + 
+					temp.getScheduleId() + "order by order_id";
+			rs = DBConnections.openDbConnectionForSelect(query);
+			try {
+				while (rs.next()){
+					order_id = rs.getInt(1);
+					break;
+				}// while
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				DBConnections.closeDbConnection();
+			}
+			query = "insert into Purchase values (" + userD.getMemberId() + ", " + order_id + ")";
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+
+			query = "update Schedule set availability = availability - " + quantity + " where schedule_id = " + temp.getScheduleId();
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+			int deductCredit = temp.getPrice() * quantity;
+			query = "update membership set credit_points = credit_points - " + deductCredit + " where member_id = " + userD.getMemberId();
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+		}// else
+		
+
+		
+		
 	}
 }
 

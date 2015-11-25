@@ -35,7 +35,8 @@ public class MovieDetailSchedule {
 			System.out.println("Schedule: "+ts.getScheduleTime());
 			System.out.println("Day: "+ts.getDay());
 			System.out.println("Total Seats Available: "+ts.getSeatsAvailable());
-
+			
+			
 
 		}
 
@@ -53,7 +54,7 @@ public class MovieDetailSchedule {
 		{
 			if (temp.getTheatreName().equals(name) && temp.getScheduleTime().equals(time) && temp.getDay().equals(day))
 			{
-				MovieDetailSchedule.purchaseTicket(movie, quantity, day, userC, userD );
+				MovieDetailSchedule.purchaseTicket(movie, quantity, day, userC, userD, temp );
 			}
 			
 			
@@ -61,18 +62,29 @@ public class MovieDetailSchedule {
 		 }//forEach
 	}
 
-	private static void purchaseTicket(String movie, int quantity, String day, UserCCDetails userC, UserDetails userD ) {
+	private static void purchaseTicket(String movie, int quantity, String day, UserCCDetails userC, UserDetails userD, TheatreSchedule temp ) {
 		// TODO Auto-generated method stub
 		System.out.println("");
 		//To be dContinued
 		Scanner sc=new Scanner(System.in); 
 		
-		System.out.println("Do you want to redeem your credit card points(1. Yes/2. No)");
+		System.out.println("Do you want to redeem your credit points(1. Yes/2. No)");
 		int choice=sc.nextInt();
 		
-		if(choice==1)
+		if(choice==2)
 		{
+			DBMovieDetails.purchaseTicket(movie,quantity,day,userC,userD,temp);
 			
+		//	DBMovieDetails.invoice(movie,quantity,day,userC,userD,temp);
+			
+			
+		}
+		else
+		{
+			if((userD.getCreditPoints()* 0.01)< (temp.getPrice()*quantity))
+			{
+				DBMovieDetails.purchaseTicketViaCreditPoints(movie,quantity,day,userC,userD,temp);
+			}
 		}
 		
 		
