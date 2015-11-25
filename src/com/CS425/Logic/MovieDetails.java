@@ -2,16 +2,18 @@ package com.CS425.Logic;
 
 import java.util.Scanner;
 import com.CS425.Db.DBMovieDetails;
+import com.CS425.bean.UserCCDetails;
+import com.CS425.bean.UserDetails;
 
 public class MovieDetails {
 		
 	public static void main(String args[])
 	{
-		MovieDetails.viewMovieDetail("Minions");
+		MovieDetails.viewMovieDetail("Minions",null, null);
 		
 	}
 	
-	public static void viewMovieDetail(String movie)
+	public static void viewMovieDetail(String movie, UserCCDetails userC,UserDetails userD)
 	{	
 		Scanner sc=new Scanner(System.in);
 		
