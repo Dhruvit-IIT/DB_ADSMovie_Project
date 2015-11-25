@@ -95,12 +95,15 @@ public class DBMovieDetails {
 		finally{
 			DBConnections.closeDbConnection();
 		}
+		
+		System.out.println(movie_id);
+		System.out.println(quantity);
+		System.out.println(userC.getCardNumber());
+		System.out.println(temp.getScheduleId());
 
-
-
-		DBConnections.query="insert into orderdetails values (seq_order.nextval,"+quantity+","
-				+userC.getCardNumber()+","+temp.getScheduleId()+", "+movie_id+", sysdate )";
-
+		DBConnections.query="insert into orderdetails values (seq_order.nextval, "+quantity+", "+userC.getCardNumber()+", "+temp.getScheduleId() + ", " +movie_id+ ",sysdate)";
+		
+		System.out.println(DBConnections.query);
 		//To be continued
 
 		int result=DBConnections.openDbConnectionForUpdate(DBConnections.query);

@@ -7,11 +7,11 @@ import com.CS425.bean.UserDetails;
 
 public class MovieDetails {
 		
-	public static void main(String args[])
+	/*public static void main(String args[])
 	{
 		MovieDetails.viewMovieDetail("Minions",null, null);
 		
-	}
+	}*/
 	
 	public static void viewMovieDetail(String movie, UserCCDetails userC,UserDetails userD)
 	{	
@@ -32,7 +32,7 @@ public class MovieDetails {
 		switch(choice)
 		{
 		case 1:
-			buyTicket(movie);
+			buyTicket(movie,userC,userD);
 			break;
 		case 2:
 			
@@ -44,10 +44,10 @@ public class MovieDetails {
 		
 	}
 	
-	public static void buyTicket(String movie)
+	public static void buyTicket(String movie, UserCCDetails userC,UserDetails userD)
 	{
 		MovieDetailSchedule mds= new MovieDetailSchedule();
-		mds.viewMovieSchedule(movie, );
+		mds.viewMovieSchedule(movie,userC, userD );
 		
 		
 	}
