@@ -125,5 +125,43 @@ public static void updateProfile(int memberId, int option, String value)
 			
 	
 	}
+
+public static void createNewMovieReviewThread(int memberId, String movie, String review)
+{
+	ResultSet rs;
+	int movie_id = 0;
+	String str1 = "select movie_id from movie where title = '" + movie +"'";
+	String str2 = "insert into review values (seq_review.nextVal, " + memberId + ", 0, '" + review + "', 0)"; 
+	 
+	DBConnections.query = str1;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	
+	//find movie_id
+	try {
+		while(rs.next())
+		{
+			movie_id = rs.getInt(1);			
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+	
+	//update review table
+	DBConnections.query = str2;		
+	int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+			
+	//update moviereview table
+	String str3 = "insert into moviereview (select " + movie_id + ", max(review_id) from review)";
+	DBConnections.query = str3;		
+	DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+	DBConnections.closeDbConnection();
+		
+	}
 }
 

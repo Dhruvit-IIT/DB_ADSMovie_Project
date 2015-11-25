@@ -3,6 +3,7 @@ package com.CS425.Logic;
 import java.util.Scanner;
 
 import com.CS425.Db.DBQueries;
+import com.CS425.Db.FetchData;
 import com.CS425.bean.*;
 
 public class UserHome
@@ -16,6 +17,7 @@ public class UserHome
 		boolean flag = true;
 		Scanner input = new Scanner(System.in);
 		
+		FetchData data =  new FetchData();
 		/*Recommendations*/
 		DBQueries.movieRecommendations(userDetails.getMemberId());
 		
@@ -49,6 +51,12 @@ public class UserHome
 				}
 			case 3:
 				{
+					System.out.println("Enter Movie name: ");
+					String movie = input.nextLine();
+					if(data.validateMovie(movie))
+						MovieDetails.viewMovieDetail(movie, userDetails);
+					else
+						System.out.println("**Movie not found.**\n");
 					break;
 				}
 			case 4:
