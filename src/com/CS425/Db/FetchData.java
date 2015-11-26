@@ -146,6 +146,15 @@ public class FetchData {
 			return false;
 		}
 		DBConnections.closeDbConnection();
+		
+		query = "insert into Credit_Card_Details values (" + memberId + ", '" + userCC.getCardNumber() + "', '" + userCC.getCardType()
+				+ "', '" + userCC.getExpiry() + "', '" + userCC.getNameOnCard() + "')";
+		result2 = DBConnections.openDbConnectionForUpdate(query);
+		if(result2 == 0){
+			DBConnections.closeDbConnection();
+			return false;
+		}
+		DBConnections.closeDbConnection();
 		return true;
 	}
 
@@ -204,11 +213,12 @@ public class FetchData {
 		return orderHistory;	
 	}
 
-	public int getOrderId(int memberId, String CCNumber, int scheduleId) {
+	public int getOrderId(String CCNumber, int scheduleId) {
 		
-		int order_id = 0;
+		int order_id = 0;	
 		query = "select order_id from OrderDetails where card_no = " + CCNumber + " and schedule_id = " + 
-	             scheduleId + "order by order_id";
+				scheduleId + " and rownum = 1 order by order_id desc";
+		
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while (rs.next()){
