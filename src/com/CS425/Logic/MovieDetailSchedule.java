@@ -90,7 +90,7 @@ public class MovieDetailSchedule {
 				System.out.println("You have insufficient credit points to buy the tickets");
 			}
 			
-			MovieInvoice.printInvoice(movie,quantity,day,userC,userD,temp);
+			//MovieInvoice.printInvoice(movie,quantity,day,userC,userD,temp);
 			
 			
 		}	
