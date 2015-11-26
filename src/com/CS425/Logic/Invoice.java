@@ -42,7 +42,7 @@ public class Invoice {
 			case 3:
 				return false;
 			default:
-				System.out.println("Invalid option");
+				System.out.println("Invalid option. Enter again");
 			}//switch
 		}// while
 	}
