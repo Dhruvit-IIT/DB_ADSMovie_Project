@@ -163,5 +163,118 @@ public static void createNewMovieReviewThread(int memberId, String movie, String
 	DBConnections.closeDbConnection();
 		
 	}
+
+public static void showMovieReviews(String movie)
+{
+	ResultSet rs1, rs2, rs3;
+	int movie_id = 0;
+	
+	String str1 = "select movie_id from movie where title = '" + movie +"'";
+	 
+	DBConnections.query = str1;	
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	
+	//find movie_id
+	try {
+		while(rs1.next())
+		{
+			movie_id = rs1.getInt(1);			
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+	//show reviews		
+	String str2 = "select r.review_id , u.name , r.like_count , r.review_content from review r, moviereview m ,userregistration u where r.review_id = m.review_id and r.MEMBER_ID = u.MEMBER_ID and m.movie_id = " + movie_id;
+	
+	DBConnections.query = str2;	
+	rs2 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		System.out.println();
+		if(rs2.isBeforeFirst() )
+		{
+		System.out.println("Below are the reviews posted on this movie by our members: \n");	
+		System.out.println("---------------------------------------------------------------------------------------");
+		while(rs2.next())
+		{
+			
+			int reviewId = rs2.getInt(1);
+			System.out.println("Review Number : " +reviewId);
+			System.out.println(rs2.getString(4) + "\tBy [" + rs2.getString(2) + "]");
+			System.out.println("Likes : " + rs2.getInt(3));
+			
+			
+			String str3 = "select u.name, r.reply_content from reviewreply r, userregistration u where r.member_id = u.member_id and r.review_id = " + reviewId;
+			DBConnections.query = str3;	
+			rs3 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+			if(rs3.isBeforeFirst() )
+			{
+				System.out.println("\t\tReplies:");
+				while(rs3.next())
+				{
+					System.out.println("\t\t" + rs3.getString(2) + "\tBy [" + rs3.getString(1) + "]");
+					
+				}
+				
+			}
+			
+			System.out.println("---------------------------------------------------------------------------------------");
+			} 
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+	}
+
+public static boolean verifyReviewID(int review_id)
+{
+	ResultSet rs;
+	String str1 = "select review_id from review where review_id = " + review_id;
+	DBConnections.query = str1;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	try {
+		 if(rs.isBeforeFirst())
+			 return true;
+		 else return false;
+					
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	return false;
+}
+
+public static void insertMovieReviewsReply(int memberId, int review_id, String review)
+{
+	
+	ResultSet rs;
+	int movie_id = 0;
+	
+	String str2 = "insert into reviewreply values (" + review_id + ", " + memberId + ", '" + review + "', 0)"; 
+	 	
+	
+	//update reviewreply table
+	DBConnections.query = str2;		
+	int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+	DBConnections.closeDbConnection();
+	
+	if(ret ==1)
+		System.out.println("Your reply has been updated!!!");
+	
+	}
+
 }
 

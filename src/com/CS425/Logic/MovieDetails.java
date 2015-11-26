@@ -3,6 +3,8 @@ package com.CS425.Logic;
 import java.util.Scanner;
 
 import com.CS425.Db.DBMovieDetails;
+import com.CS425.Db.DBQueries;
+import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
 
 public class MovieDetails {
@@ -13,11 +15,12 @@ public class MovieDetails {
 		
 	}*/
 	
-	public static boolean viewMovieDetail(String movie, UserDetails userDetails)
+	public static boolean viewMovieDetail(String movie, UserDetails userDetails, UserCCDetails ccDetails)
 	{	
 		Scanner sc=new Scanner(System.in);
 		
 		DBMovieDetails.getMovieDetails(movie);
+		DBQueries.showMovieReviews(movie);
 		
 		boolean flag = true;
 		
@@ -29,8 +32,9 @@ public class MovieDetails {
 			if(userDetails != null)
 			{
 				System.out.println("3. Create Discussion Thread");
-				System.out.println("4. Reply on Discussion");		
-				System.out.println("5. Logout");
+				System.out.println("4. Reply on Discussion");
+				System.out.println("5. Like the comment");
+				System.out.println("6. Logout");
 			}
 			
 			
@@ -57,10 +61,17 @@ public class MovieDetails {
 				
 				case 4 :
 				{
+					ReplyMovieReview replyReview = new ReplyMovieReview();
+					replyReview.replyMovieReview(userDetails, movie);
 					break;
 				}
 				
 				case 5 :
+				{
+					break;
+				}
+				
+				case 6 :
 				{
 					flag = false;
 					return false;

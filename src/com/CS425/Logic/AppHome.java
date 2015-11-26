@@ -64,7 +64,7 @@ public class AppHome {
 					System.out.println("Enter Movie name: ");
 					movie = sc.nextLine();
 					if(data.validateMovie(movie)){
-						MovieDetails.viewMovieDetail(movie);
+						MovieDetails.viewMovieDetail(movie, null, null);
 						break;
 					}// if
 					else
