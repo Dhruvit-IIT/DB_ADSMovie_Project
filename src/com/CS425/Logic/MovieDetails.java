@@ -25,7 +25,7 @@ public class MovieDetails {
 			System.out.println("2. Previous Screen");
 			if(userDetails != null)
 			{
-				System.out.println("3. Create Discussion Thread");
+				System.out.println("3. Create a Discussion Thread");
 				System.out.println("4. Reply on Discussion");
 				System.out.println("5. Like the comment");
 				System.out.println("6. Logout");
