@@ -1,4 +1,4 @@
-package com.CS425.Logic;
+ package com.CS425.Logic;
 
 import java.util.Scanner;
 

@@ -38,7 +38,7 @@ public class Invoice {
 			case 2:
 				return;
 			case 3:
-				//pending
+				
 			default:
 				System.out.println("Invalid option");
 			}//switch
