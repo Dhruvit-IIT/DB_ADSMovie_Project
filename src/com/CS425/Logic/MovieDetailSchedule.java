@@ -26,11 +26,12 @@ public class MovieDetailSchedule {
 		theatreSchedule=DBMovieDetails.displayMovieSchedule(movie);	
 		TheatreSchedule ts;
 		Iterator<TheatreSchedule> theatreItr=theatreSchedule.iterator();
+		System.out.println("\n**The movie is running in the following theaters**");
 		while(theatreItr.hasNext())
 		{
 			ts=theatreItr.next();
 			System.out.println("--------------------------------------------------------");
-			System.out.println("\nTheatre Name: "+ts.getTheatreName());
+			System.out.println("Theatre Name: "+ts.getTheatreName());
 			//System.out.println("Availability: "+ts.getAvailability());
 			System.out.println("Screen Number: "+ts.getScreenNumber());
 			System.out.println("Price: "+ts.getPrice());
@@ -115,11 +116,12 @@ public class MovieDetailSchedule {
 		theatreSchedule=DBMovieDetails.displayMovieSchedule(movie);	
 		TheatreSchedule ts;
 		Iterator<TheatreSchedule> theatreItr=theatreSchedule.iterator();
+		System.out.println("\n**The movie is running in the following theaters**");
 		while(theatreItr.hasNext())
 		{
 			ts=theatreItr.next();
 			System.out.println("--------------------------------------------------------");
-			System.out.println("\nTheatre Name: "+ts.getTheatreName());
+			System.out.println("Theatre Name: "+ts.getTheatreName());
 			//System.out.println("Availability: "+ts.getAvailability());
 			System.out.println("Screen Number: "+ts.getScreenNumber());
 			System.out.println("Price: "+ts.getPrice());
@@ -127,19 +129,17 @@ public class MovieDetailSchedule {
 			System.out.println("Day: "+ts.getDay());
 			System.out.println("Capacity: "+ts.getSeatsAvailable());
 			System.out.println("Total Seats Available: "+ts.getAvailable());
-
-
-
 		}
 		
 		System.out.println("--------------------------------------------------------------");
-		System.out.println("\nEnter the theatre Name");
+		System.out.println("\n**Booking Details**");
+		System.out.print("Enter the theatre Name");
 		name=sc.nextLine();
-		System.out.println("Enter time:");
+		System.out.print("Enter time:");
 		time=sc.nextLine();
-		System.out.println("Enter quantity");
+		System.out.print("Enter quantity");
 		quantity=Integer.parseInt(sc.nextLine());
-		System.out.println("Enter the day");
+		System.out.print("Enter the day");
 		day=sc.nextLine();
 
 
@@ -149,9 +149,8 @@ public class MovieDetailSchedule {
 			{
 				MovieDetailSchedule.purchaseTicketGuest(movie, quantity, day, temp );
 			}
-
-
-
+			else
+				System.out.println("Invalid Details. Please Enter again!!");
 		}//forEach
 
 		
@@ -163,16 +162,17 @@ public class MovieDetailSchedule {
 		// TODO Auto-generated method stub
 		
 		Scanner sc=new Scanner(System.in);
-		System.out.println();
-		System.out.println("\nEnter your name");
+		System.out.println("**Personal Details**");
+		System.out.print("\nEnter your name");
 		String name=sc.nextLine();
-		System.out.println("Enter your email");
+		System.out.print("Enter your email");
 		String email=sc.nextLine();
-		System.out.println( "Enter yout phone number");
+		System.out.print( "Enter yout phone number");
 		String phone=sc.nextLine();
-		System.out.println("Enter your 16 Digit Credit Card number");
+		System.out.println("**Credit Card Details**");
+		System.out.print("Enter your 16 Digit Credit Card number");
 		String cc=sc.nextLine();
-		System.out.println("Enter your expiry(MM/YY)");
+		System.out.print("Enter your expiry(MM/YY)");
 		String expiry=sc.nextLine();
 		
 		
