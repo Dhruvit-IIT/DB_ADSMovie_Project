@@ -23,11 +23,12 @@ public class MovieDetails {
 			System.out.println("\nSelect from below options for the "+movie+" movie");
 			System.out.println("1. Buy Ticket");
 			System.out.println("2. Previous Screen");
+			System.out.println("3. Like the comment");
 			if(userDetails != null)
 			{
-				System.out.println("3. Create a Discussion Thread");
-				System.out.println("4. Reply on Discussion");
-				System.out.println("5. Like the comment");
+				System.out.println("4. Create a Discussion Thread");
+				System.out.println("5. Reply on Discussion");
+				
 				System.out.println("6. Logout");
 			}
 			
@@ -49,26 +50,29 @@ public class MovieDetails {
 						flag = false;
 						return true;
 					}
-						
-				case 3:
+				
+				case 3 :
+				{
+					LikeComment like = new LikeComment();
+					like.like(movie);
+					break;
+				}
+					
+				case 4:
 					{
 						CreateReviewThread review = new CreateReviewThread();
 						review.createThread(userDetails, movie);
-						System.out.println("Review thread created\n");
+						
 						break;
 					}
 				
-				case 4 :
+				case 5 :
 				{
 					ReplyMovieReview replyReview = new ReplyMovieReview();
 					replyReview.replyMovieReview(userDetails, movie);
 					break;
 				}
 				
-				case 5 :
-				{
-					break;
-				}
 				
 				case 6 :
 				{

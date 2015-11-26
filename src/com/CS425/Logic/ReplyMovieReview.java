@@ -25,6 +25,6 @@ public class ReplyMovieReview {
 		System.out.println("Please enter your comment :");
 		review = input.nextLine();
 		DBQueries.insertMovieReviewsReply(userDetails.getMemberId(),review_id , review);
-		
+		DBQueries.showMovieReviews(movie);
 	}
 }

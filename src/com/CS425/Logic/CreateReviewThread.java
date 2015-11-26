@@ -13,7 +13,7 @@ public class CreateReviewThread
 		System.out.println("Please enter your review comment : ");
 		String review = input.nextLine();
 		DBQueries.createNewMovieReviewThread(userDetails.getMemberId(), movie, review);
-		
+		DBQueries.showMovieReviews(movie);
 	}
 	
 }

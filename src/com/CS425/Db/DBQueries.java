@@ -193,16 +193,19 @@ public static void createNewMovieReviewThread(int memberId, String movie, String
 	int points = 0;
 	
 	if(memberShipStatus.equals("Silver"))
-		points = 10;
+		points = 5;
 	if(memberShipStatus.equals("Gold"))
+		points = 10;
+	if(memberShipStatus.equals("Platinum"))
 		points = 20;
 	
 	String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
-	System.out.println(str5);
+	
 	DBConnections.query = str5;		
 	ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
 	DBConnections.closeDbConnection();	
 		
+	System.out.println("Review thread created\n");
 	}
 
 public static void showMovieReviews(String movie)
@@ -342,8 +345,10 @@ public static void insertMovieReviewsReply(int memberId, int review_id, String r
 		//give points on posting a review
 		int points = 0;
 		if(memberShipStatus.equals("Silver"))
-			points = 10;
+			points = 5;
 		if(memberShipStatus.equals("Gold"))
+			points = 10;
+		if(memberShipStatus.equals("Platinum"))
 			points = 20;
 		
 		String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
@@ -352,6 +357,42 @@ public static void insertMovieReviewsReply(int memberId, int review_id, String r
 		ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
 		DBConnections.closeDbConnection();	
 	
+	}
+
+
+public static void likeComment(int review_id)
+{
+	
+	ResultSet rs;
+	int like_count = 0;
+	String str1 = "select like_count from review where review_id = " + review_id;
+	DBConnections.query = str1;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	try {
+		while(rs.next())
+		{
+			like_count = rs.getInt(1);	
+			
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally
+	{
+		DBConnections.closeDbConnection();
+	}
+	
+	String str = "update review set like_count = " + (like_count + 1) + " where review_id = " + review_id;
+		
+		DBConnections.query = str;		
+		int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+		
+		if(ret == 1)
+			System.out.println("Thank you for liking the comment.");
+		DBConnections.closeDbConnection();
+		
 	}
 
 }
