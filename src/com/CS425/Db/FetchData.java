@@ -55,6 +55,7 @@ public class FetchData {
 
 	public UserCCDetails getUserCCDetails(int member_id) {
 		
+		System.out.println(member_id);
 		UserCCDetails userCC = null;
 		query = "select * from Credit_Card_Details where member_id = '" + member_id + "'";
 		rs = DBConnections.openDbConnectionForSelect(query);
@@ -141,6 +142,15 @@ public class FetchData {
 		query = "insert into membership values (" + memberId + ", '" + user.getCreditPoints() + "', '" + user.getMemberShipPoints()
 				+ "', '" + user.getStatus() + "', '" + user.getRole() + "')";
 		int result2 = DBConnections.openDbConnectionForUpdate(query);
+		if(result2 == 0){
+			DBConnections.closeDbConnection();
+			return false;
+		}
+		DBConnections.closeDbConnection();
+		
+		query = "insert into Credit_Card_Details values (" + memberId + ", '" + userCC.getCardNumber() + "', '" + userCC.getCardType()
+				+ "', '" + userCC.getExpiry() + "', '" + userCC.getNameOnCard() + "')";
+		result2 = DBConnections.openDbConnectionForUpdate(query);
 		if(result2 == 0){
 			DBConnections.closeDbConnection();
 			return false;
