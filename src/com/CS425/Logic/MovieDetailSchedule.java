@@ -99,8 +99,7 @@ public class MovieDetailSchedule {
 
 		}
 		MovieSchedule selectedMovie=new MovieSchedule(movie, temp.getScreenNumber(), temp.getScheduleTime(), temp.getAvailability(), temp.getPrice(), day, temp.getScheduleId());			
-
-		Invoice.printInvoice(selectedMovie, userC, temp.getTheatreName(), quantity);
+		Invoice.printInvoice(selectedMovie, userD.getMemberId(), userC.getCardNumber(), temp.getTheatreName(), quantity);
 	}
 
 	public void viewMovieScheduleGuest(String movie) {
@@ -182,8 +181,6 @@ public class MovieDetailSchedule {
 		MovieSchedule selectedMovie= new MovieSchedule(movie, temp.getScreenNumber(), temp.getScheduleTime(), temp.getAvailability(), temp.getPrice(), temp.getDay(), temp.getScheduleId());
 		
 		
-		Invoice.printGuestInvoice(selectedMovie, cc, temp.getTheatreName(), quantity);
-		
-		
+		Invoice.printInvoice(selectedMovie, 0, cc, temp.getTheatreName(), quantity);		
 	}
 }
