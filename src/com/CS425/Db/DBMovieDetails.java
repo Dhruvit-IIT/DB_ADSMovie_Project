@@ -46,7 +46,7 @@ public class DBMovieDetails {
 	{	
 		ArrayList<TheatreSchedule> theatreDetails= new ArrayList<TheatreSchedule>();
 		TheatreSchedule theatreSchedule;
-		DBConnections.query = "select s1.schedule_time, s1.availability, s1.price, s1.day, s2.screen_number, s2.capacity, t1.name, s1.schedule_id"
+		DBConnections.query = "select s1.schedule_time, s1.availability, s1.price, s1.day, s2.screen_number, s2.capacity, t1.name, s1.schedule_id, s1.availability"
 				+ " from Schedule s1 inner join screen s2 on s1.screen_id=s2.screen_id "
 				+ "inner join theatre t1 on t1.theatre_id=s2.theatre_id "
 				+ "where s2.screen_id IN (Select screen_id from Screen "
@@ -56,7 +56,7 @@ public class DBMovieDetails {
 			while(rs.next())
 			{	
 
-				theatreSchedule=new TheatreSchedule(rs.getString(7), rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(8));
+				theatreSchedule=new TheatreSchedule(rs.getString(7), rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(8), rs.getInt(9));
 
 				theatreDetails.add(theatreSchedule);
 
@@ -120,7 +120,7 @@ public class DBMovieDetails {
 			while(rs1.next())
 			{
 				order_id=rs1.getInt(1);
-				System.out.println(order_id);
+				//System.out.println(order_id);
 				break;
 			}
 		} catch (SQLException e) {
@@ -227,7 +227,7 @@ public class DBMovieDetails {
 		if(result==1)
 		{
 			query = "select order_id from OrderDetails where card_no = " + userC.getCardNumber() + " and schedule_id = " + 
-					temp.getScheduleId() + "order by order_id";
+					temp.getScheduleId() + "order by order_id DESC";
 			rs = DBConnections.openDbConnectionForSelect(query);
 			try {
 				while (rs.next()){

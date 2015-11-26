@@ -29,19 +29,21 @@ public class MovieDetailSchedule {
 		while(theatreItr.hasNext())
 		{
 			ts=theatreItr.next();
-			System.out.println("Theatre Name: "+ts.getTheatreName());
+			System.out.println("--------------------------------------------------------");
+			System.out.println("\nTheatre Name: "+ts.getTheatreName());
 			//System.out.println("Availability: "+ts.getAvailability());
 			System.out.println("Screen Number: "+ts.getScreenNumber());
 			System.out.println("Price: "+ts.getPrice());
 			System.out.println("Schedule: "+ts.getScheduleTime());
 			System.out.println("Day: "+ts.getDay());
-			System.out.println("Total Seats: "+ts.getSeatsAvailable());
+			System.out.println("Capacity: "+ts.getSeatsAvailable());
+			System.out.println("Total Seats Available: "+ts.getAvailable());
 			
 			
 
 		}
-
-		System.out.println("Enter the theatre Name");
+		System.out.println("--------------------------------------------------------------");
+		System.out.println("\nEnter the theatre Name");
 		name=sc.nextLine();
 		System.out.println("Enter time:");
 		time=sc.nextLine();
@@ -69,7 +71,7 @@ public class MovieDetailSchedule {
 		//To be dContinued
 		Scanner sc=new Scanner(System.in); 
 		
-		System.out.println("Do you want to redeem your credit points(1. Yes/2. No)");
+		System.out.println("Do you want to redeem your credit points\n1. Yes\n2. No");
 		int choice=sc.nextInt();
 		
 		if(choice==2)
@@ -99,5 +101,11 @@ public class MovieDetailSchedule {
 		MovieSchedule selectedMovie=new MovieSchedule(movie, temp.getScreenNumber(), temp.getScheduleTime(), temp.getAvailability(), temp.getPrice(), day, temp.getScheduleId());			
 		
 		Invoice.printInvoice(selectedMovie, userC, temp.getTheatreName(), quantity);
+	}
+
+	public void viewMovieScheduleGuest(String movie) {
+		// TODO Auto-generated method stub
+		System.out.println("Guest under construction");
+		
 	}
 }
