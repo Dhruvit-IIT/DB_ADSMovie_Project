@@ -106,7 +106,7 @@ public class DBMovieDetails {
 */
 		DBConnections.query="insert into orderdetails values (seq_order.nextval, "+quantity+", "+userC.getCardNumber()+", "+temp.getScheduleId() + ", " +movie_id+ ",sysdate)";
 		
-		System.out.println(DBConnections.query);
+		//System.out.println(DBConnections.query);
 		//To be continued
 
 		int result=DBConnections.openDbConnectionForUpdate(DBConnections.query);

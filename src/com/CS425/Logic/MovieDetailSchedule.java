@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import com.CS425.Db.DBMovieDetails;
+import com.CS425.bean.MovieSchedule;
 import com.CS425.bean.TheatreSchedule;
 import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
@@ -93,6 +94,10 @@ public class MovieDetailSchedule {
 			//MovieInvoice.printInvoice(movie,quantity,day,userC,userD,temp);
 			
 			
-		}	
+			
+		}
+		MovieSchedule selectedMovie=new MovieSchedule(movie, temp.getScreenNumber(), temp.getScheduleTime(), temp.getAvailability(), temp.getPrice(), day, temp.getScheduleId());			
+		
+		Invoice.printInvoice(selectedMovie, userC, temp.getTheatreName(), quantity);
 	}
 }
