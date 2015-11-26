@@ -37,7 +37,12 @@ public class MovieDetails {
 			switch(choice)
 			{
 				case 1:
-					buyTicket(movie, ccDetails, userDetails);
+					if(userDetails != null)
+					{
+						buyTicket(movie, ccDetails, userDetails);
+					}
+					else 
+						buyGuestTickets(movie);
 					break;
 				case 2:
 					{
@@ -79,6 +84,13 @@ public class MovieDetails {
 		
 	}
 	
+	private static void buyGuestTickets(String movie) {
+		// TODO Auto-generated method stub
+		MovieDetailSchedule mds= new MovieDetailSchedule();
+		mds.viewMovieScheduleGuest(movie);
+		
+	}
+
 	public static void buyTicket(String movie, UserCCDetails userC, UserDetails userD)
 	{
 		MovieDetailSchedule mds= new MovieDetailSchedule();
