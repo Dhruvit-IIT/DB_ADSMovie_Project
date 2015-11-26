@@ -113,7 +113,7 @@ public class DBMovieDetails {
 
 
 
-		DBConnections.query="select order_id from orderdetails where card_no = "+userC.getCardNumber()+" and schedule_id = " +temp.getScheduleId()+" order by order_id";
+		DBConnections.query="select order_id from orderdetails where card_no = "+userC.getCardNumber()+" and schedule_id = " +temp.getScheduleId()+" and rownum=1 order by order_id";
 
 		rs1=DBConnections.openDbConnectionForSelect(DBConnections.query);
 		try {
@@ -227,7 +227,7 @@ public class DBMovieDetails {
 		if(result==1)
 		{
 			query = "select order_id from OrderDetails where card_no = " + userC.getCardNumber() + " and schedule_id = " + 
-					temp.getScheduleId() + "order by order_id DESC";
+					temp.getScheduleId() + "and rownum=1 order by order_id DESC";
 			rs = DBConnections.openDbConnectionForSelect(query);
 			try {
 				while (rs.next()){
@@ -256,5 +256,59 @@ public class DBMovieDetails {
 
 
 
+	}
+
+	public static void guestPurchase(String movie, int quantity, String day, TheatreSchedule temp, String phone, String cc, String email) {
+		// TODO Auto-generated method stub
+		int movieId=0;
+		int order_id=0;
+		String query = "select movie_id from Movie where title= '" + movie + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				movieId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
+		}
+		
+		query = "insert into OrderDetails values (seq_order.nextval, " + quantity + ", '" + cc + "', " + 
+				temp.getScheduleId() + ", " + movieId + ", sysdate)";
+		int result = DBConnections.openDbConnectionForUpdate(query);
+		if(result==1)
+		{
+			query = "select order_id from OrderDetails where card_no = " + cc + " and schedule_id = " + 
+					temp.getScheduleId() + "and rownum=1 order by order_id DESC";
+			rs = DBConnections.openDbConnectionForSelect(query);
+			try {
+				while (rs.next()){
+					order_id = rs.getInt(1);
+					break;
+				}// while
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				DBConnections.closeDbConnection();
+			}
+			
+			query = "insert into guestorder values ("+ order_id +", '"+email+"', '"+ phone +"')";
+			System.out.println(query);
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+			
+			query = "update Schedule set availability = availability - " + quantity + " where schedule_id = " + temp.getScheduleId();
+			result = DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+			
+			
+			
+			
+		}
+		
+		
 	}
 }
