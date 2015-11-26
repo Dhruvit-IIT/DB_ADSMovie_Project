@@ -12,19 +12,20 @@ public class UserHome
 	//need to get credit card details as well
 	public void userHomeMenu(UserDetails userDetails, UserCCDetails ccDetails)
 	{
-		System.out.printf("**************Welcome %s **************%n", userDetails.getUserName());
-		System.out.println("----------------------------------------------");
 		boolean flag = true;
 		Scanner input = new Scanner(System.in);
 		
 		FetchData data =  new FetchData();
-		/*Recommendations*/
-		DBQueries.movieRecommendations(userDetails.getMemberId());
-		
-		System.out.println("----------------------------------------------");
 		
 		while(flag)
 		{
+			System.out.printf("%n**************Welcome %s **************%n", userDetails.getUserName());
+			System.out.println("----------------------------------------------");
+			
+			/*Recommendations*/
+			DBQueries.movieRecommendations(userDetails.getMemberId());
+			
+			System.out.println("----------------------------------------------");
 			System.out.println("\nPlease enter option number from below menu : \n");
 			System.out.println("----------------------------------------------");
 			System.out.println("1 - View/Edit Profile");
@@ -54,7 +55,7 @@ public class UserHome
 					System.out.println("Enter Movie name: ");
 					String movie = input.nextLine();
 					if(data.validateMovie(movie))
-						MovieDetails.viewMovieDetail(movie, userDetails, ccDetails);
+						flag = MovieDetails.viewMovieDetail(movie, userDetails, ccDetails);
 					else
 						System.out.println("**Movie not found.**\n");
 					break;
@@ -85,9 +86,6 @@ public class UserHome
 					break;
 				}
 			}
-			
-
 		}
 	}
-	
 }
