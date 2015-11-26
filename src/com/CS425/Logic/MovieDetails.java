@@ -8,12 +8,6 @@ import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
 
 public class MovieDetails {
-		
-	/*public static void main(String args[])
-	{
-		MovieDetails.viewMovieDetail("Minions");
-		
-	}*/
 	
 	public static boolean viewMovieDetail(String movie, UserDetails userDetails, UserCCDetails ccDetails)
 	{	
@@ -92,6 +86,4 @@ public class MovieDetails {
 		
 		
 	}
-	
-	
 }

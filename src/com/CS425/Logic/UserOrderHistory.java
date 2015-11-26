@@ -18,21 +18,22 @@ public class UserOrderHistory {
 		orderHistory = data.getUserOrderHistory(memberId);
 		OrderDetails order;
 
-		System.out.println("\n-----------Order History---------");
+		System.out.println("\n\t\t-----------------------------Order History----------------------------------");
 		if(orderHistory == null)
 			System.out.println("*No order history found.*");
 		else{
-			System.out.println("Order ID\tMovie Name\tTheatre Name\tTheatre Location\tDay\tTime\tQuantity");
+			System.out.println("Order ID\tMovie Name\t\tTheatre Name\t\tTheatre Location\t\tTime\t\tDay\tQuantity\tBooked On");
 			Iterator<OrderDetails> orderItr = orderHistory.iterator();
 			while(orderItr.hasNext()){
 				order = orderItr.next();
-				System.out.print(order.getOrderId() + "\t");
-				System.out.print(order.getMovieName() + "\t");
+				System.out.print(order.getOrderId() + "\t\t");
+				System.out.print(order.getMovieName() + "\t\t");
 				System.out.print(order.getTheatreName() + "\t");
 				System.out.print(order.getTheatreLocation() + "\t");
 				System.out.print(order.getDay() + "\t");
 				System.out.print(order.getTime() + "\t");
-				System.out.print(order.getQuantity() + "\t");
+				System.out.print(order.getQuantity() + "\t\t");
+				System.out.println(order.getTimestamp() + "\n");
 			}// While
 		}
 

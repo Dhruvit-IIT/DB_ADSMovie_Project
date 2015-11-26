@@ -53,9 +53,23 @@ public class FetchData {
 		return userD;
 	}
 
-	public UserCCDetails getUserCCDetails() {
-		// TODO Auto-generated method stub
-		return null;
+	public UserCCDetails getUserCCDetails(int member_id) {
+		
+		UserCCDetails userCC = null;
+		query = "select * from Credit_Card_Details where member_id = '" + member_id + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				userCC = new UserCCDetails(rs.getString(3), rs.getString(2), rs.getString(4), rs.getString(5));
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			DBConnections.closeDbConnection();
+		}
+		return userCC;
 	}
 
 	public boolean validateMovie(String movie) {
@@ -158,6 +172,8 @@ public class FetchData {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
 		}
 	}
 
@@ -165,23 +181,46 @@ public class FetchData {
 		
 		ArrayList<OrderDetails> orderHistory = new ArrayList<OrderDetails>();
 		OrderDetails order;
-		query = "select o.order_id, m.title, t.name, t.location, s.day, s.schedule_time, o.quantity from " +
+		query = "select o.order_id, m.title, t.name, t.location, s.day, s.schedule_time, o.quantity, o.timestamp from " +
 				"Purchase p inner join OrderDetails o on o.order_id = p.order_id inner join " +
 				"Schedule s on o.schedule_id = s.schedule_id inner join " +
 				"Screen sc on s.screen_id = sc.screen_id inner join " +
 				"Theatre t on sc.theatre_id = t.theatre_id inner join " +
 				"Movie m on o.movie_id = m.movie_id where p.member_id = " + memberId;
+		
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while(rs.next()){
 				order = new OrderDetails(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), 
-										 rs.getString(5), rs.getString(6), null, 0, rs.getInt(7), 0);
+										 rs.getString(5), rs.getString(6), null, 0, rs.getInt(7), 0, rs.getString(8));
 				orderHistory.add(order);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
 		}
 		return orderHistory;	
+	}
+
+	public int getOrderId(int memberId, String CCNumber, int scheduleId) {
+		
+		int order_id = 0;
+		query = "select order_id from OrderDetails where card_no = " + CCNumber + " and schedule_id = " + 
+	             scheduleId + "order by order_id";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while (rs.next()){
+				order_id = rs.getInt(1);
+				break;
+			}// while
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
+		}
+		return order_id;
 	}
 }
