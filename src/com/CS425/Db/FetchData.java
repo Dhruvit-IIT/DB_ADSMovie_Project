@@ -187,7 +187,7 @@ public class FetchData {
 				"Screen sc on s.screen_id = sc.screen_id inner join " +
 				"Theatre t on sc.theatre_id = t.theatre_id inner join " +
 				"Movie m on o.movie_id = m.movie_id where p.member_id = " + memberId;
-		
+		System.out.println(query);
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while(rs.next()){
@@ -208,7 +208,7 @@ public class FetchData {
 		
 		int order_id = 0;
 		query = "select order_id from OrderDetails where card_no = " + CCNumber + " and schedule_id = " + 
-	             scheduleId + "order by order_id";
+				scheduleId + " and rownum = 1 order by order_id desc";
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while (rs.next()){
