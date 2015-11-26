@@ -46,6 +46,7 @@ public class AppHome {
 					if(data.validateUserLogin(email, pass)){
 						userD = data.getUserDetails(email);
 						userCC = data.getUserCCDetails(userD.getMemberId());
+						checkMemberShipUpgrade(userD.getMemberId());
 						uHome = new UserHome();
 						uHome.userHomeMenu(userD, userCC);
 						break;
@@ -93,6 +94,10 @@ public class AppHome {
 				break;
 			} // switch
 		} // while
+	}
+
+	private void checkMemberShipUpgrade(int memberId) {
+		//To be implemented.
 	}
 
 	private void signUpUser(Scanner sc, FetchData data) {
