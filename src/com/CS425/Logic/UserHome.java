@@ -61,6 +61,17 @@ public class UserHome
 				}
 			case 4:
 				{
+					String theatre;
+					while(true){
+						System.out.println("Enter Theatre name: ");
+						theatre = input.nextLine();
+						if(data.validateTheatre(theatre)){
+							TheatreDetails.viewTheatreDetails(theatre, userDetails, ccDetails);
+							break;
+						}// if
+						else
+							System.out.println("**Theatre not found.**\n");
+					} //while
 					break;
 				}
 			case 5:

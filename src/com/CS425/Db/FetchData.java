@@ -203,4 +203,24 @@ public class FetchData {
 		}
 		return orderHistory;	
 	}
+
+	public int getOrderId(int memberId, String CCNumber, int scheduleId) {
+		
+		int order_id = 0;
+		query = "select order_id from OrderDetails where card_no = " + CCNumber + " and schedule_id = " + 
+	             scheduleId + "order by order_id";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while (rs.next()){
+				order_id = rs.getInt(1);
+				break;
+			}// while
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBConnections.closeDbConnection();
+		}
+		return order_id;
+	}
 }

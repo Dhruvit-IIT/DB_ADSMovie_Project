@@ -1,7 +1,7 @@
 package com.CS425.bean;
 
 public class UserCCDetails {
-	
+
 	private int memberId;
 	private String cardType;
 	private String cardNumber;
@@ -35,5 +35,9 @@ public class UserCCDetails {
 
 	public String getNameOnCard() {
 		return nameOnCard;
+	}
+	
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
 	}
 }

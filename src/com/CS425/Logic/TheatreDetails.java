@@ -5,16 +5,24 @@ import java.util.Scanner;
 
 import com.CS425.Db.DBMovieDetails;
 import com.CS425.Db.DBTheatreDetails;
+import com.CS425.Db.FetchData;
 import com.CS425.bean.MovieSchedule;
+import com.CS425.bean.OrderDetails;
 import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
 
 public class TheatreDetails {
 
+	private static final String OrderDetails = null;
+
 	public static void viewTheatreDetails(String theatre, UserDetails userD, UserCCDetails userCC)
 	{
 		Scanner sc=new Scanner(System.in);
-		DBTheatreDetails.getTheatreDetails(theatre);
+		String address;
+		address = DBTheatreDetails.getTheatreDetails(theatre);
+		
+		System.out.println("\n----------------" + theatre +"----------------------");
+		System.out.println("Address: " + address);
 
 		while(true){
 			System.out.println("\nSelect from below options for the "+theatre+" Theatre");
@@ -46,7 +54,7 @@ public class TheatreDetails {
 		ArrayList<MovieSchedule> mScheduleList = new ArrayList<MovieSchedule>(); 
 		MovieSchedule selectedMovie = null;
 		mScheduleList = DBTheatreDetails.getTheatreSchedule(theatre);
-		
+
 		if(mScheduleList == null){
 			System.err.println("**No movies screened in the theatre. Select another theatre.***");
 			return;
@@ -79,12 +87,18 @@ public class TheatreDetails {
 				System.out.println("***Sorry!! Ticket not purchased.***");
 				return;
 			}// if
+			else{
+				System.out.println("\nCredit Points successfully applied!!");
+				Invoice.printInvoice(selectedMovie, userCC, theatre, quantity);
+			}
 		}// if(option == "1")
 		if(option.equals("2"))
 			if(!processPurchase(false, selectedMovie, quantity, userD, userCC)){
 				System.out.println("***Sorry!! Ticket not purchased.***");
 				return;
 			}// if
+			else
+				Invoice.printInvoice(selectedMovie, userCC, theatre, quantity);
 		else{
 			System.out.println("Invalid option.");
 			return;
@@ -93,12 +107,12 @@ public class TheatreDetails {
 
 	public static boolean processPurchase(boolean redeemPoints, MovieSchedule selectedMovie, int quantity, UserDetails userD, UserCCDetails userCC) {
 		// TODO Auto-generated method stub
-		System.out.println("**Processing purchase**");
+		System.out.println("**Processing purchase**\n");
 		Scanner sc=new Scanner(System.in);
 		if(redeemPoints){
-			if(userD.getCreditPoints() < selectedMovie.getPrice()){
+			if((userD.getCreditPoints())< (selectedMovie.getPrice() * quantity)){
 				System.out.println("Insufficient credit points. Do you wanna purchase via credit card.\n1. Yes\n2. No");
-				if(sc.nextLine() == "2")
+				if(sc.nextLine().equals("2"))
 					return false;
 				else
 					return DBTheatreDetails.purchaseTicketViaCC(selectedMovie, quantity, userD, userCC);
