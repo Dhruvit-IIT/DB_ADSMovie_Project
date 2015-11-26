@@ -79,7 +79,10 @@ public class DBMovieDetails {
 		// TODO Auto-generated method stub
 		int movie_id = 0;
 		int order_id=0;
-
+		
+		ResultSet rs1 = null;
+		ResultSet rs2=null;
+		
 		DBConnections.query="Select movie_id from movie where title='"+movie+"'";
 		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
 
@@ -96,11 +99,11 @@ public class DBMovieDetails {
 			DBConnections.closeDbConnection();
 		}
 		
-		System.out.println(movie_id);
+		/*System.out.println(movie_id);
 		System.out.println(quantity);
 		System.out.println(userC.getCardNumber());
 		System.out.println(temp.getScheduleId());
-
+*/
 		DBConnections.query="insert into orderdetails values (seq_order.nextval, "+quantity+", "+userC.getCardNumber()+", "+temp.getScheduleId() + ", " +movie_id+ ",sysdate)";
 		
 		System.out.println(DBConnections.query);
@@ -111,11 +114,14 @@ public class DBMovieDetails {
 
 
 		DBConnections.query="select order_id from orderdetails where card_no = "+userC.getCardNumber()+" and schedule_id = " +temp.getScheduleId()+" order by order_id";
-
+		
+		rs1=DBConnections.openDbConnectionForSelect(DBConnections.query);
 		try {
-			while(rs.next())
+			while(rs1.next())
 			{
-				order_id=rs.getInt(1);
+				order_id=rs1.getInt(1);
+				System.out.println(order_id);
+				break;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

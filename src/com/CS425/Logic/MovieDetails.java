@@ -20,6 +20,7 @@ public class MovieDetails {
 		DBMovieDetails.getMovieDetails(movie);
 		
 		
+		
 		System.out.println("\nSelect from below options for the "+movie+" movie");
 		System.out.println("1. Buy Ticket");
 		System.out.println("2. Create Discussion Thread");

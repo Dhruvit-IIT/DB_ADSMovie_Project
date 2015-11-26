@@ -34,7 +34,7 @@ public class MovieDetailSchedule {
 			System.out.println("Price: "+ts.getPrice());
 			System.out.println("Schedule: "+ts.getScheduleTime());
 			System.out.println("Day: "+ts.getDay());
-			System.out.println("Total Seats Available: "+ts.getSeatsAvailable());
+			System.out.println("Total Seats: "+ts.getSeatsAvailable());
 			
 			
 
@@ -81,10 +81,18 @@ public class MovieDetailSchedule {
 		}
 		else
 		{
-			if((userD.getCreditPoints()* 0.01)< (temp.getPrice()*quantity))
+			if((userD.getCreditPoints()* 0.01)> (temp.getPrice()*quantity))
 			{
 				DBMovieDetails.purchaseTicketViaCreditPoints(movie,quantity,day,userC,userD,temp);
 			}
+			else
+			{
+				System.out.println("You have insufficient credit points to buy the tickets");
+			}
+			
+			MovieInvoice.printInvoice(movie,quantity,day,userC,userD,temp);
+			
+			
 		}
 		
 		

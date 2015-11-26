@@ -21,7 +21,7 @@ public class AppHome {
 		boolean breakWhile = false;
 		int option;
 		String email, pass, movie, theatre;
-		FetchData data =  new FetchData();;
+		FetchData data =  new FetchData();
 		UserDetails userD;
 		UserCCDetails userCC;
 		
@@ -45,9 +45,9 @@ public class AppHome {
 					UserHome uHome;
 					if(data.validateUserLogin(email, pass)){
 						userD = data.getUserDetails(email);
-						userCC = data.getUserCCDetails();
+						userCC = data.getUserCCDetails(userD.getMemberId());
 						uHome = new UserHome();
-						//uHome.userHomeMenu(userD, userCC);
+						uHome.userHomeMenu(userD, userCC);
 						break;
 					}// if
 					else{
@@ -64,7 +64,7 @@ public class AppHome {
 					System.out.println("Enter Movie name: ");
 					movie = sc.nextLine();
 					if(data.validateMovie(movie)){
-						MovieDetails.viewMovieDetail(movie,null,null);
+						MovieDetails.viewMovieDetail(movie, null, null);
 						break;
 					}// if
 					else
@@ -76,7 +76,7 @@ public class AppHome {
 					System.out.println("Enter Theatre name: ");
 					theatre = sc.nextLine();
 					if(data.validateTheatre(theatre)){
-						TheatreDetails.viewTheatreDetails(theatre);
+						//TheatreDetails.viewTheatreDetails(theatre, null, null);
 						break;
 					}// if
 					else
