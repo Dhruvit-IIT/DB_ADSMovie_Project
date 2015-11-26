@@ -132,7 +132,9 @@ public static void createNewMovieReviewThread(int memberId, String movie, String
 	int movie_id = 0;
 	String str1 = "select movie_id from movie where title = '" + movie +"'";
 	String str2 = "insert into review values (seq_review.nextVal, " + memberId + ", 0, '" + review + "', 0)"; 
-	 
+	
+	
+	
 	DBConnections.query = str1;	
 	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
 	
@@ -155,12 +157,51 @@ public static void createNewMovieReviewThread(int memberId, String movie, String
 	//update review table
 	DBConnections.query = str2;		
 	int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
-			
+	DBConnections.closeDbConnection();	
+	
 	//update moviereview table
 	String str3 = "insert into moviereview (select " + movie_id + ", max(review_id) from review)";
 	DBConnections.query = str3;		
 	DBConnections.openDbConnectionForUpdate(DBConnections.query);	
 	DBConnections.closeDbConnection();
+	
+	//find status, credit_points and member_points
+	String memberShipStatus = null;
+	int credit_points =0;
+	int member_points = 0;
+	String str4 = "select status, credit_points, member_points from membership where member_id = " + memberId;
+	DBConnections.query = str4;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	try {
+		while(rs.next())
+		{
+			memberShipStatus = rs.getString(1);	
+			credit_points = rs.getInt(2);
+			member_points = rs.getInt(3);
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally
+	{
+		DBConnections.closeDbConnection();
+	}
+	
+	//give points on posting a review
+	int points = 0;
+	
+	if(memberShipStatus.equals("Silver"))
+		points = 10;
+	if(memberShipStatus.equals("Gold"))
+		points = 20;
+	
+	String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
+	System.out.println(str5);
+	DBConnections.query = str5;		
+	ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+	DBConnections.closeDbConnection();	
 		
 	}
 
@@ -273,6 +314,43 @@ public static void insertMovieReviewsReply(int memberId, int review_id, String r
 	
 	if(ret ==1)
 		System.out.println("Your reply has been updated!!!");
+	
+	//find status, credit_points and member_points
+		String memberShipStatus = null;
+		int credit_points =0;
+		int member_points = 0;
+		String str4 = "select status, credit_points, member_points from membership where member_id = " + memberId;
+		DBConnections.query = str4;	
+		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+		
+		try {
+			while(rs.next())
+			{
+				memberShipStatus = rs.getString(1);	
+				credit_points = rs.getInt(2);
+				member_points = rs.getInt(3);
+			}
+				
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally
+		{
+			DBConnections.closeDbConnection();
+		}
+		
+		//give points on posting a review
+		int points = 0;
+		if(memberShipStatus.equals("Silver"))
+			points = 10;
+		if(memberShipStatus.equals("Gold"))
+			points = 20;
+		
+		String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
+		
+		DBConnections.query = str5;		
+		ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+		DBConnections.closeDbConnection();	
 	
 	}
 
