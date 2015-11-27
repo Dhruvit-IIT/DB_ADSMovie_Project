@@ -180,8 +180,10 @@ public class TheatreDetails {
 					System.out.println("***Sorry!! Ticket not purchased.***");
 					return true;
 				}// if
-				else
+				else{
+					System.out.println("**Congratulations!!. You have earned some credit points for your purchase.**");
 					return Invoice.printInvoice(selectedMovie, userD.getMemberId(), userCC.getCardNumber(), theatre, quantity);
+				}
 			else{
 				System.out.println("Invalid option.");
 				return true;
@@ -193,16 +195,32 @@ public class TheatreDetails {
 		// TODO Auto-generated method stub
 		System.out.println("**Processing purchase**\n");
 		Scanner sc=new Scanner(System.in);
+		
+		String memberStatus = userD.getStatus();
+		int addCredit = 0;
+		System.out.println("MemberStatus: " + memberStatus);
+		switch(memberStatus){
+		case "Silver":
+			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.01);
+			break;
+		case "Gold":
+			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.02);
+			break;
+		case "Platinum":
+			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.03);
+			break;
+		}
+		
 		if(redeemPoints){
 			if((userD.getCreditPoints())< (selectedMovie.getPrice() * quantity)){
 				System.out.println("Insufficient credit points. Do you wanna purchase via credit card.\n1. Yes\n2. No");
 				if(sc.nextLine().equals("2"))
 					return false;
 				else
-					return DBTheatreDetails.purchaseTicketViaCC(selectedMovie, quantity, userD, userCC);
+					return DBTheatreDetails.purchaseTicketViaCC(selectedMovie, quantity, userD, userCC, addCredit);
 			}// if
 			return DBTheatreDetails.purchaseTicketViaCreditPoints(selectedMovie, quantity, userD, userCC);
 		}// if(redeemPoints) 
-		return DBTheatreDetails.purchaseTicketViaCC(selectedMovie, quantity, userD, userCC);
+		return DBTheatreDetails.purchaseTicketViaCC(selectedMovie, quantity, userD, userCC, addCredit);
 	}// function
 }

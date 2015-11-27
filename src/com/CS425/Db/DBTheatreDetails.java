@@ -66,7 +66,8 @@ public class DBTheatreDetails {
 		return mScheduleList;
 	}
 
-	public static boolean purchaseTicketViaCC(MovieSchedule selectedMovie, int quantity, UserDetails userD, UserCCDetails userCC) {
+	public static boolean purchaseTicketViaCC(MovieSchedule selectedMovie, int quantity, UserDetails userD, 
+			UserCCDetails userCC, int addCredit) {
 
 		int movieId = 0;
 		int order_id = 0;
@@ -110,6 +111,10 @@ public class DBTheatreDetails {
 		DBConnections.closeDbConnection();
 
 		query = "update Schedule set availability = availability - " + quantity + " where schedule_id = " + selectedMovie.getScheduleId();
+		result = DBConnections.openDbConnectionForUpdate(query);
+		DBConnections.closeDbConnection();
+		
+		query = "update Membership set credit_points = credit_points + " + addCredit + " where member_id = " + userD.getMemberId();
 		result = DBConnections.openDbConnectionForUpdate(query);
 		DBConnections.closeDbConnection();
 		return true;
