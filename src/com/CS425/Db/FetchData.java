@@ -40,7 +40,7 @@ public class FetchData {
 		try {
 			while(rs.next()){
 				userD = new UserDetails(rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5).toString(), rs.getString(6), 
-						rs.getString(7), rs.getInt(9), rs.getInt(10), rs.getString(10), rs.getString(11));
+						rs.getString(7), rs.getInt(9), rs.getInt(10), rs.getString(11), rs.getString(12));
 				userD.setMemberId(rs.getInt(1));
 				//rs.close();	
 			}
