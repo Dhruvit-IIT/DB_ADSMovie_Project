@@ -36,8 +36,7 @@ public class TheatreDetails {
 				System.out.println("5. Reply on Discussion");
 				System.out.println("6. Logout");
 			}
-			
-
+		
 			int choice=Integer.parseInt(sc.nextLine());
 
 			switch(choice)
@@ -50,7 +49,7 @@ public class TheatreDetails {
 				break;
 				
 			case 2:
-					ret = false;
+					
 					return true;
 			case 3:
 				LikeTheatreComment like = new LikeTheatreComment();
@@ -68,7 +67,7 @@ public class TheatreDetails {
 				break;
 				
 			case 6:
-				ret = false;
+				
 				return false;
 			default:
 				System.out.println("Invalid option. Please enter again.");
@@ -214,7 +213,7 @@ public class TheatreDetails {
 		
 		String memberStatus = userD.getStatus();
 		int addCredit = 0;
-		System.out.println("MemberStatus: " + memberStatus);
+		
 		switch(memberStatus){
 		case "Silver":
 			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.01);

@@ -67,7 +67,7 @@ public class UserHome
 						System.out.println("Enter Theatre name: ");
 						theatre = input.nextLine();
 						if(data.validateTheatre(theatre)){
-							TheatreDetails.viewTheatreDetails(theatre, userDetails, ccDetails);
+							flag = TheatreDetails.viewTheatreDetails(theatre, userDetails, ccDetails);
 							break;
 						}// if
 						else

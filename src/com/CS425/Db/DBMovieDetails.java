@@ -23,16 +23,17 @@ public class DBMovieDetails {
 	static ArrayList<String> a3= new ArrayList<String>();
 
 	public static void getMovieDetails(String movie){
-		DBConnections.query = "select * from movie where title='"+movie+"'";
+		DBConnections.query = "select m1.title, m1.year, m1.genre, m1.description, m1.director, s1.name from movie m1 inner join starin s1 on m1.movie_id=s1.movie_id where m1.movie_id in(Select movie_id from movie where title='"+movie+"')";
 		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
 		try {
 			while(rs.next())
 			{
-				System.out.println("Name: "+rs.getString(2));
-				System.out.println("Year: "+rs.getString(3));
-				System.out.println("Genre: "+rs.getString(4));
-				System.out.println("Description: "+rs.getString(5));
-				System.out.println("Director: "+rs.getString(6));
+				System.out.println("Name: "+rs.getString(1));
+				System.out.println("Year: "+rs.getString(2));
+				System.out.println("Genre: "+rs.getString(3));
+				System.out.println("Description: "+rs.getString(4));
+				System.out.println("Director: "+rs.getString(5));
+				System.out.println("Stars: "+rs.getString(6));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -101,9 +102,11 @@ public class DBMovieDetails {
 			
 		}
 		
-		DBConnections.query = "update Membership set credit_points = credit_points + " + creditPoints + " where member_id = " + userD.getMemberId();
+		DBConnections.query = "update Membership set credit_points = credit_points + " + creditPoints + ", member_points= member_points+ "+quantity*temp.getPrice()+"where member_id = " + userD.getMemberId();
 		int result2 = DBConnections.openDbConnectionForUpdate(DBConnections.query);
 		DBConnections.closeDbConnection();
+		
+		
 		
 
 		DBConnections.query="Select movie_id from movie where title='"+movie+"'";
@@ -158,7 +161,7 @@ public class DBMovieDetails {
 
 			if(purchased==1)
 			{
-				DBConnections.query="update schedule set availability = availability- "+ quantity +" where schedule_id=" + temp.getScheduleId();
+				DBConnections.query="update schedule set availability = availability - "+ quantity +" where schedule_id=" + temp.getScheduleId();
 			}
 		}
 	}	

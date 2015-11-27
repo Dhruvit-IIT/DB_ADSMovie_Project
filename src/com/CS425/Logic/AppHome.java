@@ -8,6 +8,11 @@ import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
 
 public class AppHome {
+	
+	final static int GOLD_THRESHOLD = 5000;
+	final static int PLATINUM_THRESHOLD = 10000;
+	final static String UPGRADE_MSG = "**Congratulations!! You have just been promoted to ";
+	final static String BENIFIT_MSG = "Now enjoy greater credit points when you purchase a ticket or write a review.";
 
 	public static void main(String args[]){
 
@@ -50,7 +55,7 @@ public class AppHome {
 							case "Non-Staff":
 								userD = data.getUserDetails(email);
 								userCC = data.getUserCCDetails(userD.getMemberId());
-								checkMemberShipUpgrade(userD.getMemberId());
+								checkMemberShipUpgrade(userD);
 								uHome = new UserHome();
 								uHome.userHomeMenu(userD, userCC);
 								break;
@@ -122,8 +127,21 @@ public class AppHome {
 		return data.getAuthorityByEmail(email);
 	}
 
-	private void checkMemberShipUpgrade(int memberId) {
-		//To be implemented.
+	private void checkMemberShipUpgrade(UserDetails userD) {
+		
+		int memberPoints = userD.getMemberShipPoints();
+		FetchData data = new FetchData();
+		if(memberPoints >= GOLD_THRESHOLD && !userD.getStatus().equalsIgnoreCase("gold") 
+				                          && !userD.getStatus().equalsIgnoreCase("platinum")){
+			data.upgradeMembershipStatus(userD.getMemberId(), "GOLD");
+			System.out.println(UPGRADE_MSG + "Gold status**");
+			System.out.println(BENIFIT_MSG);
+		}
+		if(memberPoints >= PLATINUM_THRESHOLD && !userD.getStatus().equalsIgnoreCase("platinum")){
+			data.upgradeMembershipStatus(userD.getMemberId(), "PLATINUM");
+			System.out.println(UPGRADE_MSG + "Platinum status**");
+			System.out.println(BENIFIT_MSG);
+		}
 	}
 
 	private void signUpUser(Scanner sc, FetchData data) {
