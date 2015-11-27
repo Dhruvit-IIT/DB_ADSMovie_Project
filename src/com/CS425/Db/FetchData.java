@@ -40,7 +40,7 @@ public class FetchData {
 		try {
 			while(rs.next()){
 				userD = new UserDetails(rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5).toString(), rs.getString(6), 
-						rs.getString(7), rs.getInt(9), rs.getInt(10), rs.getString(10), rs.getString(11));
+						rs.getString(7), rs.getInt(9), rs.getInt(10), rs.getString(11), rs.getString(12));
 				userD.setMemberId(rs.getInt(1));
 				//rs.close();	
 			}
@@ -146,6 +146,15 @@ public class FetchData {
 			return false;
 		}
 		DBConnections.closeDbConnection();
+		
+		query = "insert into Credit_Card_Details values (" + memberId + ", '" + userCC.getCardNumber() + "', '" + userCC.getCardType()
+				+ "', '" + userCC.getExpiry() + "', '" + userCC.getNameOnCard() + "')";
+		result2 = DBConnections.openDbConnectionForUpdate(query);
+		if(result2 == 0){
+			DBConnections.closeDbConnection();
+			return false;
+		}
+		DBConnections.closeDbConnection();
 		return true;
 	}
 
@@ -204,11 +213,12 @@ public class FetchData {
 		return orderHistory;	
 	}
 
-	public int getOrderId(int memberId, String CCNumber, int scheduleId) {
+	public int getOrderId(String CCNumber, int scheduleId) {
 		
-		int order_id = 0;
+		int order_id = 0;	
 		query = "select order_id from OrderDetails where card_no = " + CCNumber + " and schedule_id = " + 
-	             scheduleId + "order by order_id";
+				scheduleId + " and rownum = 1 order by order_id desc";
+		
 		rs = DBConnections.openDbConnectionForSelect(query);
 		try {
 			while (rs.next()){
@@ -222,5 +232,41 @@ public class FetchData {
 			DBConnections.closeDbConnection();
 		}
 		return order_id;
+	}
+
+	public String getAuthorityByEmail(String email) {
+		
+		String authority = null;
+		query = "select m.role from USERREGISTRATION u inner join MEMBERSHIP m on m.member_id = u.member_id where u.email = '" + email + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				authority = rs.getString(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		return authority;
+	}
+
+	public String getStaffTypeByEmail(String email) {
+		
+		String staffType = null;
+		query = "select staff_role from STAFF_DESCRIPTION where description_id in (select description_id from STAFFDETAILS where email = '" + email + "')";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				staffType = rs.getString(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		return staffType;
 	}
 }

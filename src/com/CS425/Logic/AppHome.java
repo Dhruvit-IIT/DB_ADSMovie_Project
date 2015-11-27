@@ -44,10 +44,26 @@ public class AppHome {
 					pass = sc.nextLine();
 					UserHome uHome;
 					if(data.validateUserLogin(email, pass)){
-						userD = data.getUserDetails(email);
-						userCC = data.getUserCCDetails(userD.getMemberId());
-						uHome = new UserHome();
-						uHome.userHomeMenu(userD, userCC);
+						String authorityType = getAuthorityType(email);
+						
+						switch(authorityType){
+							case "Non-Staff":
+								userD = data.getUserDetails(email);
+								userCC = data.getUserCCDetails(userD.getMemberId());
+								checkMemberShipUpgrade(userD.getMemberId());
+								uHome = new UserHome();
+								uHome.userHomeMenu(userD, userCC);
+								break;
+							case "Staff":
+								String staffType = getStaffType(email);
+								if(staffType.equalsIgnoreCase("Owner"))
+									OwnerHome.viewOwnerHome(); // implementation pending
+								else if(staffType.equalsIgnoreCase("Manager"))
+									ManagerHome.viewManagerHome(); // implementation pending
+								else
+									StaffHome.viewStaff(); // // implementation pending
+								break;
+						}
 						break;
 					}// if
 					else{
@@ -95,6 +111,21 @@ public class AppHome {
 		} // while
 	}
 
+	private String getStaffType(String email) {
+
+		FetchData data = new FetchData();
+		return data.getStaffTypeByEmail(email);
+	}
+
+	private String getAuthorityType(String email) {
+		FetchData data = new FetchData();
+		return data.getAuthorityByEmail(email);
+	}
+
+	private void checkMemberShipUpgrade(int memberId) {
+		//To be implemented.
+	}
+
 	private void signUpUser(Scanner sc, FetchData data) {
 
 		boolean dbSuccess = false;
@@ -111,7 +142,7 @@ public class AppHome {
 			System.out.print("Address: ");
 			String address=sc.nextLine();
 
-			System.out.print("Date of Birth(MM-DD-YYYY)");
+			System.out.print("Date of Birth(MM-DD-YYYY): ");
 			String dob=sc.nextLine();
 
 			System.out.print("Email: ");
@@ -136,8 +167,12 @@ public class AppHome {
 
 			System.out.print("Password: ");
 			String password = sc.nextLine();
-
-			user = new UserDetails(name, address, phone, dob, email, gender, 0, 0, "Silver", "Non-staff");
+			//check if user is staff
+			if(data.getStaffTypeByEmail(email) != null)
+				user = new UserDetails(name, address, phone, dob, email, gender, 0, 0, "Gold", "Staff");
+			else
+				user = new UserDetails(name, address, phone, dob, email, gender, 0, 0, "Silver", "Non-Staff");
+			
 			userCC = new UserCCDetails(cardType, cardNumber, expiry, nameOnCard);
 			
 			if(data.insertUserDetails(user, userCC) && data.insertUserLoginDetails(email, password)){
@@ -145,7 +180,6 @@ public class AppHome {
 				try {
 					TimeUnit.SECONDS.sleep(3);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				dbSuccess = true;

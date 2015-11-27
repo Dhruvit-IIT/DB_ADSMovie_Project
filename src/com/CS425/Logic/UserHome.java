@@ -55,7 +55,7 @@ public class UserHome
 					System.out.println("Enter Movie name: ");
 					String movie = input.nextLine();
 					if(data.validateMovie(movie))
-						MovieDetails.viewMovieDetail(movie, userDetails, ccDetails);
+						flag = MovieDetails.viewMovieDetail(movie, userDetails, ccDetails);
 					else
 						System.out.println("**Movie not found.**\n");
 					break;
@@ -86,9 +86,6 @@ public class UserHome
 					break;
 				}
 			}
-			
-
 		}
 	}
-	
 }
