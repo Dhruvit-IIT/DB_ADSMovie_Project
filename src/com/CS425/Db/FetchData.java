@@ -233,4 +233,40 @@ public class FetchData {
 		}
 		return order_id;
 	}
+
+	public String getAuthorityByEmail(String email) {
+		
+		String authority = null;
+		query = "select m.role from USERREGISTRATION u inner join MEMBERSHIP m on m.member_id = u.member_id where u.email = '" + email + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				authority = rs.getString(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		return authority;
+	}
+
+	public String getStaffTypeByEmail(String email) {
+		
+		String staffType = null;
+		query = "select staff_role from STAFF_DESCRIPTION where description_id in (select description_id from STAFFDETAILS where email = '" + email + "')";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				staffType = rs.getString(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		return staffType;
+	}
 }

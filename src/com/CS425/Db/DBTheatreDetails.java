@@ -166,7 +166,7 @@ public class DBTheatreDetails {
 			DBConnections.closeDbConnection();
 
 			int deductCredit = selectedMovie.getPrice() * quantity;
-			query = "update membership set credit_points = credit_points - " + deductCredit + " where member_id = " + userD.getMemberId();
+			query = "update membership set credit_points = credit_points - " + deductCredit + ", membership_points = membership_points + " + deductCredit + " where member_id = " + userD.getMemberId();
 			DBConnections.openDbConnectionForUpdate(query);
 			DBConnections.closeDbConnection();
 		}// else
