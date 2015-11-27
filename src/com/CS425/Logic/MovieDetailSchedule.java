@@ -44,13 +44,13 @@ public class MovieDetailSchedule {
 
 		}
 		System.out.println("--------------------------------------------------------------");
-		System.out.print("\nEnter the theatre Name");
+		System.out.print("\nEnter the theatre Name: ");
 		name=sc.nextLine();
-		System.out.print("Enter time:");
+		System.out.print("Enter time: ");
 		time=sc.nextLine();
-		System.out.print("Enter quantity");
+		System.out.print("Enter quantity: ");
 		quantity=Integer.parseInt(sc.nextLine());
-		System.out.print("Enter the day");
+		System.out.print("Enter the day: ");
 		day=sc.nextLine();
 
 
