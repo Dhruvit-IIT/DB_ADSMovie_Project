@@ -114,7 +114,7 @@ public class DBTheatreDetails {
 		result = DBConnections.openDbConnectionForUpdate(query);
 		DBConnections.closeDbConnection();
 		
-		query = "update Membership set credit_points = credit_points + " + addCredit + " where member_id = " + userD.getMemberId();
+		query = "update Membership set credit_points = credit_points + " + addCredit + ", member_points = member_points + " + (addCredit * 100) + " where member_id = " + userD.getMemberId();
 		result = DBConnections.openDbConnectionForUpdate(query);
 		DBConnections.closeDbConnection();
 		return true;
