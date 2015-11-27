@@ -395,5 +395,159 @@ public static void likeComment(int review_id)
 		
 	}
 
+public static void showTheatreReviews(String theatre)
+{
+	ResultSet rs1, rs2, rs3;
+	int theatre_id = 0;
+	
+	String str1 = "select theatre_id from theatre where name = '" + theatre +"'";
+	 
+	DBConnections.query = str1;	
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	
+	//find movie_id
+	try {
+		while(rs1.next())
+		{
+			theatre_id = rs1.getInt(1);			
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+	//show reviews		
+	String str2 = "select r.review_id , u.name , r.like_count , r.review_content from review r, theatrereview m ,userregistration u where r.review_id = m.review_id and r.MEMBER_ID = u.MEMBER_ID and m.theatre_id = " + theatre_id;
+	
+	DBConnections.query = str2;	
+	rs2 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		System.out.println();
+		if(rs2.isBeforeFirst() )
+		{
+		System.out.println("Below are the reviews posted on this theatre by our members: \n");	
+		System.out.println("---------------------------------------------------------------------------------------");
+		while(rs2.next())
+		{
+			
+			int reviewId = rs2.getInt(1);
+			System.out.println("Review Number : " +reviewId);
+			System.out.println(rs2.getString(4) + "\tBy [" + rs2.getString(2) + "]");
+			System.out.println("Likes : " + rs2.getInt(3));
+			
+			
+			String str3 = "select u.name, r.reply_content from reviewreply r, userregistration u where r.member_id = u.member_id and r.review_id = " + reviewId;
+			DBConnections.query = str3;	
+			rs3 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+			if(rs3.isBeforeFirst() )
+			{
+				System.out.println("\t\tReplies:");
+				while(rs3.next())
+				{
+					System.out.println("\t\t" + rs3.getString(2) + "\tBy [" + rs3.getString(1) + "]");
+					
+				}
+				
+			}
+			
+			System.out.println("---------------------------------------------------------------------------------------");
+			} 
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+	}
+
+
+public static void createNewTheatreReviewThread(int memberId, String theatre, String review)
+{
+	ResultSet rs;
+	int theatre_id = 0;
+	String str1 = "select theatre_id from theatre where name = '" + theatre +"'";
+	String str2 = "insert into review values (seq_review.nextVal, " + memberId + ", 0, '" + review + "', 0)"; 
+	
+	
+	DBConnections.query = str1;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	
+	//find movie_id
+	try {
+		while(rs.next())
+		{
+			theatre_id = rs.getInt(1);			
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+	
+	//update review table
+	DBConnections.query = str2;		
+	int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+	DBConnections.closeDbConnection();	
+	
+	//update moviereview table
+	String str3 = "insert into theatrereview (select " + theatre_id + ", max(review_id) from review)";
+	DBConnections.query = str3;		
+	DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+	DBConnections.closeDbConnection();
+	
+	//find status, credit_points and member_points
+	String memberShipStatus = null;
+	int credit_points =0;
+	int member_points = 0;
+	String str4 = "select status, credit_points, member_points from membership where member_id = " + memberId;
+	DBConnections.query = str4;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	try {
+		while(rs.next())
+		{
+			memberShipStatus = rs.getString(1);	
+			credit_points = rs.getInt(2);
+			member_points = rs.getInt(3);
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally
+	{
+		DBConnections.closeDbConnection();
+	}
+	
+	//give points on posting a review
+	int points = 0;
+	
+	if(memberShipStatus.equals("Silver"))
+		points = 5;
+	if(memberShipStatus.equals("Gold"))
+		points = 10;
+	if(memberShipStatus.equals("Platinum"))
+		points = 20;
+	
+	String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
+	
+	DBConnections.query = str5;		
+	ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+	DBConnections.closeDbConnection();	
+		
+	System.out.println("Review thread created\n");
+	}
+
 }
 

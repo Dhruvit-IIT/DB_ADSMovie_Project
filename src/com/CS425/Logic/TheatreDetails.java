@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.CS425.Db.DBMovieDetails;
+import com.CS425.Db.DBQueries;
 import com.CS425.Db.DBTheatreDetails;
 import com.CS425.Db.FetchData;
 import com.CS425.bean.GuestDetails;
@@ -20,19 +21,22 @@ public class TheatreDetails {
 		String address;
 		address = DBTheatreDetails.getTheatreDetails(theatre);
 		boolean ret = true;
+		
+		DBQueries.showTheatreReviews(theatre);
 
 		while(ret){
 			System.out.println("\n----------------" + theatre +"----------------------");
 			System.out.println("Address: " + address);
 			System.out.println("\nSelect from below options for the "+theatre+" Theatre");
 			System.out.println("1. Buy Ticket");
+			System.out.println("2. Previous Screen");
+			System.out.println("3. Like the comment");
 			if(userD != null){
-				System.out.println("2. Create Discussion Thread");
-				System.out.println("3. Reply on Discussion");
-				System.out.println("4. Return to Homepage");
-				System.out.println("5. Logout");
+				System.out.println("4. Create Discussion Thread");
+				System.out.println("5. Reply on Discussion");
+				System.out.println("6. Logout");
 			}
-			System.out.println("2. Home");
+			
 
 			int choice=Integer.parseInt(sc.nextLine());
 
@@ -44,15 +48,27 @@ public class TheatreDetails {
 				else
 					ret = buyTicketUser(theatre, userD, userCC, sc);
 				break;
+				
 			case 2:
-				if(userD == null)
-					return false;
-				break;
+					ret = false;
+					return true;
 			case 3:
+				LikeTheatreComment like = new LikeTheatreComment();
+				like.like(theatre);
 				break;
 			case 4:
-				return true;
+				CreateTheatreReviewThread review = new CreateTheatreReviewThread();
+				review.createTheatreReviewThread(userD, theatre);
+				
+				break;
+				
 			case 5:
+				ReplyTheatreReview replyReview = new ReplyTheatreReview();
+				replyReview.replyTheatreReview(userD, theatre);
+				break;
+				
+			case 6:
+				ret = false;
 				return false;
 			default:
 				System.out.println("Invalid option. Please enter again.");
