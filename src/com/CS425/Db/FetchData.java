@@ -269,4 +269,16 @@ public class FetchData {
 		DBConnections.closeDbConnection();
 		return staffType;
 	}
+
+	public void upgradeMembershipStatus(int memberId, String status) {
+		
+		if(status.equalsIgnoreCase("gold"))
+			query = "update MEMBERSHIP set status = 'Gold' where member_id = " + memberId;
+			
+		if(status.equalsIgnoreCase("platinum"))
+			query = "update MEMBERSHIP set status = 'Platinum' where member_id = " + memberId;
+		
+		DBConnections.openDbConnectionForUpdate(query);
+		DBConnections.closeDbConnection();
+	}
 }

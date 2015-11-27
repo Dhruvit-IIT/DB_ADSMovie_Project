@@ -32,7 +32,8 @@ public class TheatreDetails {
 				System.out.println("4. Return to Homepage");
 				System.out.println("5. Logout");
 			}
-			System.out.println("2. Home");
+			else
+				System.out.println("2. Home");
 
 			int choice=Integer.parseInt(sc.nextLine());
 
@@ -198,7 +199,7 @@ public class TheatreDetails {
 		
 		String memberStatus = userD.getStatus();
 		int addCredit = 0;
-		System.out.println("MemberStatus: " + memberStatus);
+		
 		switch(memberStatus){
 		case "Silver":
 			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.01);
