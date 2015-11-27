@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class StaffHome {
 	
-	Scanner sc=new Scanner(System.in);
+	static Scanner sc=new Scanner(System.in);
 	StaffDetails staff=new StaffDetails();
-	boolean flag=true;
-	int option;
+	static boolean flag=true;
+	static int option;
 	
-	public void viewStaff()
+	public static void viewStaff()
 	{
 		while(flag){
 			System.out.println("*******  Welcome **************");
@@ -43,12 +43,12 @@ public class StaffHome {
 	}
 	}
 
-	private void viewSchedule() {
+	private static void viewSchedule() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void viewProfile() {
+	private static void viewProfile() {
 		// TODO Auto-generated method stub
 		
 	}

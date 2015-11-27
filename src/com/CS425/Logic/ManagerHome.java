@@ -3,13 +3,13 @@ package com.CS425.Logic;
 import java.util.Scanner;
 
 public class ManagerHome {
-	Scanner sc=new Scanner(System.in);
-	StaffDetails staff=new StaffDetails();
-	boolean flag=true;
-	int option;
+	static Scanner sc=new Scanner(System.in);
+	static StaffDetails staff=new StaffDetails();
+	static boolean flag=true;
+	static int option;
 
 
-	public void viewManagerHome(){
+	public static void viewManagerHome(){
 
 
 		while(flag){
@@ -23,8 +23,6 @@ public class ManagerHome {
 			System.out.println("4 - Logout");
 
 			option=Integer.parseInt(sc.nextLine());
-
-
 
 			switch(option)
 			{

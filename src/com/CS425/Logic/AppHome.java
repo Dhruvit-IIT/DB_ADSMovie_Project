@@ -45,7 +45,7 @@ public class AppHome {
 					UserHome uHome;
 					if(data.validateUserLogin(email, pass)){
 						String authorityType = getAuthorityType(email);
-						System.out.println(authorityType);
+						
 						switch(authorityType){
 							case "Non-Staff":
 								userD = data.getUserDetails(email);
@@ -57,11 +57,11 @@ public class AppHome {
 							case "Staff":
 								String staffType = getStaffType(email);
 								if(staffType.equalsIgnoreCase("Owner"))
-									System.out.println("Owner logged in"); // implementation pending
+									OwnerHome.viewOwnerHome(); // implementation pending
 								else if(staffType.equalsIgnoreCase("Manager"))
-									System.out.println("Manager logged in"); // implementation pending
+									ManagerHome.viewManagerHome(); // implementation pending
 								else
-									System.out.println("Other staff logged in"); // // implementation pending
+									StaffHome.viewStaff(); // // implementation pending
 								break;
 						}
 						break;
