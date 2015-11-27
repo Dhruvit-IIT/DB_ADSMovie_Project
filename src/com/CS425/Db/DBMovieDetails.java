@@ -82,6 +82,29 @@ public class DBMovieDetails {
 
 		ResultSet rs1 = null;
 		ResultSet rs2=null;
+		
+		
+		
+		String memberStatus=userD.getStatus();
+		int creditPoints = 0;
+		switch(memberStatus)
+		{
+		case "Silver":
+			creditPoints=(int) ((quantity * temp.getPrice())*0.01);
+			break;
+		case "Gold":
+			creditPoints=(int) ((quantity * temp.getPrice())*0.02);
+			break;
+		case "Platinum":
+			creditPoints= (int) ((quantity * temp.getPrice())*0.05);
+			break;
+			
+		}
+		
+		DBConnections.query = "update Membership set credit_points = credit_points + " + creditPoints + " where member_id = " + userD.getMemberId();
+		int result2 = DBConnections.openDbConnectionForUpdate(DBConnections.query);
+		DBConnections.closeDbConnection();
+		
 
 		DBConnections.query="Select movie_id from movie where title='"+movie+"'";
 		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
@@ -98,12 +121,7 @@ public class DBMovieDetails {
 		finally{
 			DBConnections.closeDbConnection();
 		}
-
-		/*System.out.println(movie_id);
-		System.out.println(quantity);
-		System.out.println(userC.getCardNumber());
-		System.out.println(temp.getScheduleId());
-		 */
+		
 		DBConnections.query="insert into orderdetails values (seq_order.nextval, "+quantity+", "+userC.getCardNumber()+", "+temp.getScheduleId() + ", " +movie_id+ ",sysdate)";
 
 		//System.out.println(DBConnections.query);
@@ -131,7 +149,7 @@ public class DBMovieDetails {
 			DBConnections.closeDbConnection();
 		}
 
-
+		
 		if(result==1)
 		{
 			DBConnections.query="insert into purchase values (" + userD.getMemberId()+", " + order_id +")";
@@ -142,65 +160,11 @@ public class DBMovieDetails {
 			{
 				DBConnections.query="update schedule set availability = availability- "+ quantity +" where schedule_id=" + temp.getScheduleId();
 			}
-
-
 		}
-
 	}	
 
 
-	/*public static void purchaseTicketViaCreditPoints( String movie, int quantity,String day, UserDetails userD, UserCCDetails userCC) {
-
-		int movieId = 0;
-		int order_id = 0;
-
-		String query = "select movie_id from Movie where title= '" + selectedMovie.getMovieName() + "'";
-		rs = DBConnections.openDbConnectionForSelect(query);
-		try {
-			while(rs.next()){
-				movieId = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-			DBConnections.closeDbConnection();
-		}
-		query = "insert into OrderDetails values (seq_order.nextval, " + quantity + ", '" + userCC.getCardNumber() + "', " + 
-				selectedMovie.getScheduleId() + ", " + movieId + ", sysdate)";
-		int result = DBConnections.openDbConnectionForUpdate(query);
-		if(result == 0)
-			return false;
-		else{
-			query = "select order_id from OrderDetails where card_no = " + userCC.getCardNumber() + " and schedule_id = " + 
-					selectedMovie.getScheduleId() + "order by order_id";
-			rs = DBConnections.openDbConnectionForSelect(query);
-			try {
-				while (rs.next()){
-					order_id = rs.getInt(1);
-					break;
-				}// while
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				DBConnections.closeDbConnection();
-			}
-			query = "insert into Purchase values (" + userD.getMemberId() + ", " + order_id + ")";
-			result = DBConnections.openDbConnectionForUpdate(query);
-			DBConnections.closeDbConnection();
-
-			query = "update Schedule set availability = availability - " + quantity + " where schedule_id = " + selectedMovie.getScheduleId();
-			result = DBConnections.openDbConnectionForUpdate(query);
-			DBConnections.closeDbConnection();
-			int deductCredit = selectedMovie.getPrice() * quantity;
-			query = "update membership set credit_points = credit_points - " + deductCredit + " where member_id = " + userD.getMemberId();
-			result = DBConnections.openDbConnectionForUpdate(query);
-			DBConnections.closeDbConnection();
-		}// else
-		return true;
-	}
-	 */
+	
 	public static void purchaseTicketViaCreditPoints(String movie, int quantity, String day, UserCCDetails userC,
 			UserDetails userD, TheatreSchedule temp) {
 		// TODO Auto-generated method stub
@@ -252,10 +216,6 @@ public class DBMovieDetails {
 			result = DBConnections.openDbConnectionForUpdate(query);
 			DBConnections.closeDbConnection();
 		}// else
-
-
-
-
 	}
 
 	public static void guestPurchase(String movie, int quantity, String day, TheatreSchedule temp, String phone, String cc, String email) {

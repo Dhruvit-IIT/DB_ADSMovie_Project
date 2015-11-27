@@ -24,7 +24,7 @@ public class MovieDetailSchedule {
 		ArrayList<TheatreSchedule> theatreSchedule=new ArrayList<TheatreSchedule>();
 		Scanner sc=new Scanner(System.in);
 		theatreSchedule=DBMovieDetails.displayMovieSchedule(movie);	
-		TheatreSchedule ts;
+		TheatreSchedule ts = null;
 		Iterator<TheatreSchedule> theatreItr=theatreSchedule.iterator();
 		System.out.println("\n**The movie is running in the following theaters**");
 		while(theatreItr.hasNext())
@@ -44,13 +44,13 @@ public class MovieDetailSchedule {
 
 		}
 		System.out.println("--------------------------------------------------------------");
-		System.out.println("\nEnter the theatre Name");
+		System.out.print("\nEnter the theatre Name");
 		name=sc.nextLine();
-		System.out.println("Enter time:");
+		System.out.print("Enter time:");
 		time=sc.nextLine();
-		System.out.println("Enter quantity");
+		System.out.print("Enter quantity");
 		quantity=Integer.parseInt(sc.nextLine());
-		System.out.println("Enter the day");
+		System.out.print("Enter the day");
 		day=sc.nextLine();
 
 
@@ -58,11 +58,13 @@ public class MovieDetailSchedule {
 		{
 			if (temp.getTheatreName().equals(name) && temp.getScheduleTime().equals(time) && temp.getDay().equals(day))
 			{
+				if(temp.getAvailability() < quantity){
+					System.out.println("**Sorry no seats available for the current Movie!!**");
+					break;
+				}
 				MovieDetailSchedule.purchaseTicket(movie, quantity, day, userC, userD, temp );
+				break;
 			}
-
-
-
 		}//forEach
 	}
 
@@ -71,7 +73,7 @@ public class MovieDetailSchedule {
 		System.out.println("");
 		//To be dContinued
 		Scanner sc=new Scanner(System.in); 
-
+		
 		System.out.println("Do you want to redeem your credit points\n1. Yes\n2. No");
 		int choice=sc.nextInt();
 
@@ -147,6 +149,11 @@ public class MovieDetailSchedule {
 		{
 			if (temp.getTheatreName().equals(name) && temp.getScheduleTime().equals(time) && temp.getDay().equals(day))
 			{
+				if(temp.getAvailability() < quantity){
+					System.out.println("**Sorry no seats available for the current Movie!!**");
+					break;
+				}
+				
 				MovieDetailSchedule.purchaseTicketGuest(movie, quantity, day, temp );
 			}
 			else
@@ -174,6 +181,9 @@ public class MovieDetailSchedule {
 		String cc=sc.nextLine();
 		System.out.print("Enter your expiry(MM/YY)");
 		String expiry=sc.nextLine();
+		
+		
+		
 		
 		
 		DBMovieDetails.guestPurchase(movie, quantity, day, temp, phone,cc, email);
