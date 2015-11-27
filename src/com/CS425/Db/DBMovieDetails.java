@@ -87,7 +87,6 @@ public class DBMovieDetails {
 		
 		String memberStatus=userD.getStatus();
 		int creditPoints = 0;
-		System.out.println(memberStatus);
 		switch(memberStatus)
 		{
 		case "Silver":
