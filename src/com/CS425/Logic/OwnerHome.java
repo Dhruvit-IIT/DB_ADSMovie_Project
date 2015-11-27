@@ -51,27 +51,25 @@ public class OwnerHome {
 			}
 			case 4:
 			{
-				flag=userDetails();
+				
 				break;
 			}
 			case 5:
 			{
-				flag=viewAllTables();
+				
 				break;
 			}
 			case 6:
 			{
-				flag=addMovieToTheatre();
 				break;
 			}
 			case 7:
 			{
-				flag=setMovieSchedule();
 				break;
 			}
 			case 8:
 			{
-				System.out.println("underCinstruction");
+				
 			}
 			case 9:
 				flag = false;
@@ -82,29 +80,4 @@ public class OwnerHome {
 			}//switch
 		}//while
 	}//method
-
-	private static boolean setMovieSchedule() {
-		return false;
-		// TODO Auto-generated method stub
-
-	}
-
-	private static boolean addMovieToTheatre() {
-		return false;
-		// TODO Auto-generated method stub
-
-	}
-
-	private static boolean viewAllTables() {
-		return false;
-		// TODO Auto-generated method stub
-
-	}
-
-	private static boolean userDetails() {
-		return false;
-		// TODO Auto-generated method stub
-
-	}
-
 }
