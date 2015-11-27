@@ -162,6 +162,8 @@ public class DBMovieDetails {
 			if(purchased==1)
 			{
 				DBConnections.query="update schedule set availability = availability - "+ quantity +" where schedule_id=" + temp.getScheduleId();
+				result = DBConnections.openDbConnectionForUpdate(DBConnections.query);
+				DBConnections.closeDbConnection();
 			}
 		}
 	}	
@@ -265,13 +267,7 @@ public class DBMovieDetails {
 			
 			query = "update Schedule set availability = availability - " + quantity + " where schedule_id = " + temp.getScheduleId();
 			result = DBConnections.openDbConnectionForUpdate(query);
-			DBConnections.closeDbConnection();
-			
-			
-			
-			
+			DBConnections.closeDbConnection();	
 		}
-		
-		
 	}
 }
