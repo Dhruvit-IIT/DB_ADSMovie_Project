@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class StaffHome {
 	
 	static Scanner sc=new Scanner(System.in);
-	StaffDetails staff=new StaffDetails();
 	static boolean flag=true;
 	static int option;
 	

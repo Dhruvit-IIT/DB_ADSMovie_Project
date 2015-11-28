@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import com.CS425.Db.FetchData;
+import com.CS425.bean.StaffDetails;
 import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
 
@@ -29,6 +30,7 @@ public class AppHome {
 		FetchData data =  new FetchData();
 		UserDetails userD;
 		UserCCDetails userCC;
+		StaffDetails staffD;
 		
 		while(!breakWhile){
 			System.out.println("*********Welcome to ADSMovies*********\n");
@@ -61,10 +63,11 @@ public class AppHome {
 								break;
 							case "Staff":
 								String staffType = getStaffType(email);
+								staffD = data.getStaffDetails(email);
 								if(staffType.equalsIgnoreCase("Owner"))
-									OwnerHome.viewOwnerHome(); // implementation pending
+									OwnerHome.viewOwnerHome(staffD); // implementation pending
 								else if(staffType.equalsIgnoreCase("Manager"))
-									ManagerHome.viewManagerHome(); // implementation pending
+									ManagerHome.viewManagerHome(staffD); // implementation pending
 								else
 									StaffHome.viewStaff(); // // implementation pending
 								break;

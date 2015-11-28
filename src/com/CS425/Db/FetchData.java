@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.CS425.bean.OrderDetails;
+import com.CS425.bean.StaffDetails;
 import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
 
@@ -280,5 +281,24 @@ public class FetchData {
 		
 		DBConnections.openDbConnectionForUpdate(query);
 		DBConnections.closeDbConnection();
+	}
+
+	public StaffDetails getStaffDetails(String email) {
+		
+		StaffDetails sd = new StaffDetails();
+		query = "select * from STAFFDETAILS where email = '" + email + "'";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				sd.setName(rs.getString(2));
+				sd.setStaffId(rs.getInt(1));
+				sd.setEmail(rs.getString(8));
+				sd.setTheatreId(rs.getInt(9));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sd;
 	}
 }

@@ -2,23 +2,25 @@ package com.CS425.Logic;
 
 import java.util.Scanner;
 
+import com.CS425.bean.StaffDetails;
+
 public class ManagerHome {
 	static Scanner sc=new Scanner(System.in);
-	static StaffDetails staff=new StaffDetails();
+	static StaffProcessing staffP = new StaffProcessing();
 	static boolean flag=true;
 	static int option;
 
 
-	public static void viewManagerHome(){
+	public static void viewManagerHome(StaffDetails staffD){
 
 
 		while(flag){
-			System.out.println("*******  Welcome **************");
+			System.out.println("*************Welcome " + staffD.getName() + "**************");
 			System.out.println("----------------------------------------------");
 			System.out.println("\nPlease enter option number from below menu : \n");
 			System.out.println("----------------------------------------------");
 			System.out.println("1 - Hire Staff");
-			System.out.println("2 - Set Staff Schedule");
+			System.out.println("2 - Manage Staff Schedule");
 			System.out.println("3 - Set Credit Points Policy");
 			System.out.println("4 - Logout");
 
@@ -29,12 +31,12 @@ public class ManagerHome {
 			case 1: 
 			{
 
-				flag=staff.hireStaff();
+				flag=staffP.hireStaff(staffD);
 				break;
 			}
 			case 2:
 			{
-				flag=staff.setStaffSchedule();
+				flag=staffP.setStaffSchedule();
 				break;
 			}
 			case 3:

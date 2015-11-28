@@ -2,23 +2,25 @@ package com.CS425.Logic;
 
 import java.util.Scanner;
 
+import com.CS425.bean.StaffDetails;
+
 public class OwnerHome {
 
 	static int option;
 
-	public static void viewOwnerHome()
+	public static void viewOwnerHome(StaffDetails staffD)
 	{
 		Scanner sc=new Scanner(System.in);
-		StaffDetails staff=new StaffDetails();
+		StaffProcessing staffP = new StaffProcessing();
 		boolean flag=true;
 
 		while(flag){
-			System.out.println("*******  Welcome Owner**************");
+			System.out.println("*************Welcome " + staffD.getName() + "**************");
 			System.out.println("----------------------------------------------");
 			System.out.println("\nPlease enter option number from below menu : \n");
 			System.out.println("----------------------------------------------");
 			System.out.println("1 - Hire Staff");
-			System.out.println("2 - Set Staff Schedule");
+			System.out.println("2 - Manage Staff Schedule");
 			System.out.println("3 - Set Credit Points Policy");
 			System.out.println("4 - View Registered USers Details");
 			System.out.println("5 - View All Tables");
@@ -28,20 +30,17 @@ public class OwnerHome {
 			System.out.println("9 - Logout");
 
 			option=Integer.parseInt(sc.nextLine());
-
-
-
 			switch(option)
 			{
 			case 1: 
 			{
 
-				flag=staff.hireStaff();
+				flag=staffP.hireStaff(staffD);
 				break;
 			}
 			case 2:
 			{
-				flag=staff.setStaffSchedule();
+				flag=staffP.setStaffSchedule();
 				break;
 			}
 			case 3:
