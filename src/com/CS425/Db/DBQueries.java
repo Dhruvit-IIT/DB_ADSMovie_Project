@@ -1,7 +1,9 @@
 package com.CS425.Db;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DBQueries
 {
@@ -192,12 +194,25 @@ public static void createNewMovieReviewThread(int memberId, String movie, String
 	//give points on posting a review
 	int points = 0;
 	
-	if(memberShipStatus.equals("Silver"))
-		points = 5;
-	if(memberShipStatus.equals("Gold"))
-		points = 10;
-	if(memberShipStatus.equals("Platinum"))
-		points = 20;
+	String str6 = "select review_points from policies where membership_status = '" + memberShipStatus + "'";
+	
+	DBConnections.query = str6;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	try {
+		while(rs.next())
+		{
+			points = rs.getInt(1);				
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally
+	{
+		DBConnections.closeDbConnection();
+	}
+		
 	
 	String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
 	
@@ -342,14 +357,29 @@ public static void insertMovieReviewsReply(int memberId, int review_id, String r
 			DBConnections.closeDbConnection();
 		}
 		
-		//give points on posting a review
+		
+		String str6 = "select review_points from policies where membership_status = '" + memberShipStatus + "'";
+		
+		DBConnections.query = str6;	
+		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+		
 		int points = 0;
-		if(memberShipStatus.equals("Silver"))
-			points = 5;
-		if(memberShipStatus.equals("Gold"))
-			points = 10;
-		if(memberShipStatus.equals("Platinum"))
-			points = 20;
+		try {
+			while(rs.next())
+			{
+				points = rs.getInt(1);				
+			}
+				
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally
+		{
+			DBConnections.closeDbConnection();
+		}
+		
+		//give points on posting a review
+		
 		
 		String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
 		
@@ -533,13 +563,21 @@ public static void createNewTheatreReviewThread(int memberId, String theatre, St
 	//give points on posting a review
 	int points = 0;
 	
-	if(memberShipStatus.equals("Silver"))
-		points = 5;
-	if(memberShipStatus.equals("Gold"))
-		points = 10;
-	if(memberShipStatus.equals("Platinum"))
-		points = 20;
+	try {
+		while(rs.next())
+		{
+			points = rs.getInt(1);				
+		}
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally
+	{
+		DBConnections.closeDbConnection();
+	}
 	
+		
 	String str5 = "update membership set credit_points = " + (credit_points + points) + ", member_points = " + (member_points + points) + " where member_id = " + memberId;
 	
 	DBConnections.query = str5;		
@@ -548,6 +586,259 @@ public static void createNewTheatreReviewThread(int memberId, String theatre, St
 		
 	System.out.println("Review thread created\n");
 	}
+
+
+public static void viewListOfTables()
+{
+	ResultSet rs1;
+	String str1 = "select table_name from user_tables";
+	
+	DBConnections.query = str1;
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		
+		System.out.println("Below is the list of tables");
+		System.out.println("----------------------------------------------\n");
+		
+		while(rs1.next())
+		{
+			String in = rs1.getString(1);
+			System.out.println(in);
+			
+		}
+		
+		System.out.println("----------------------------------------------\n");
+				
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+}
+
+public static void viewTableDetails(String table_name)
+{
+	ResultSet rs1;
+	String str1 = "select * from " + table_name;
+	
+	DBConnections.query = str1;
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		
+		System.out.println("Content of table " + table_name);
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+		
+		ResultSetMetaData rsmd = rs1.getMetaData();
+		int columnsNumber = rsmd.getColumnCount();
+		while (rs1.next()) {
+		    for (int i = 1; i <= columnsNumber; i++) {
+		       if(table_name.toUpperCase().equals("CREDIT_CARD_DETAILS"))
+		       {
+		    	   String columnValue = rs1.getObject(i).toString();
+		    	   if(i==2)
+		    	   {
+		    		  String lastFourDigits = columnValue.substring(12, columnValue.length());
+		    		  columnValue = "************" + lastFourDigits;
+		    		   System.out.print(rsmd.getColumnName(i) + " :- " + columnValue + "\n"); 
+		    	   }
+		    		    
+		    	   else
+		    		   System.out.print(rsmd.getColumnName(i) + " :- " + columnValue + "\n");   
+		       }else
+		       {
+		        String columnValue = rs1.getObject(i).toString();
+		        System.out.print(rsmd.getColumnName(i) + " :- " + columnValue + "\n");
+		    }
+		    }
+		    System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+		}	
+		
+				
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+}
+
+public static boolean validateTableName(String table_name)
+{
+	ResultSet rs1;
+	String str1 = "select table_name from user_tables";
+	ArrayList<String> table_list = new ArrayList<String>();
+	DBConnections.query = str1;
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+				
+		while(rs1.next())
+		{
+			table_list.add(rs1.getString(1));
+			
+		}
+		
+		System.out.println("----------------------------------------------\n");
+				
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+	if(table_list.contains(table_name))
+		return true;
+	else return false;
+	
+}
+
+
+public static void viewRegisteredUserDetails()
+{
+	ResultSet rs1;
+	String str1 = "select member_id, name, email  from userregistration";
+	
+	DBConnections.query = str1;
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		
+		System.out.println("List of registered users");
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+		System.out.printf("%10s%20s%30s%n", "Member Id", "Name", "E-mail address");
+		while (rs1.next())
+		{
+		    System.out.printf("%10d", rs1.getInt(1));
+		    System.out.printf("%20s", rs1.getString(2));
+		    System.out.printf("%30s%n", rs1.getString(3));
+		    		    
+		    	
+		    }
+		    System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+						
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+}
+
+public static void viewDetailedRegisteredUserDetails(String member_id)
+{
+	ResultSet rs1;
+	String str1 = "select u.name, u.phone, u.address, u. date_of_birth, u.email, u.gender, m.credit_points, m.member_points, m.status, m.role from membership m, userregistration u where m.MEMBER_ID = u.MEMBER_ID and m.member_id = " + member_id;
+	
+	DBConnections.query = str1;
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		
+		
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+		
+		while (rs1.next())
+		{
+		    System.out.println("Name : " + rs1.getString(1));
+		    System.out.println("Phone : " + rs1.getString(2));
+		    System.out.println("Address : " + rs1.getString(3));
+		    System.out.println("Date of Birth : " + rs1.getString(4));
+		    System.out.println("E-mail : " + rs1.getString(5));
+		    System.out.println("Gender : " + rs1.getString(6));
+		    System.out.println("Available Credit points : " + rs1.getInt(7));
+		    System.out.println("Total Points : " + rs1.getString(8));
+		    System.out.println("Membership Status : " + rs1.getString(9));
+		    System.out.println("User Role : " + rs1.getString(10));
+		    	    
+		    		    
+		    	
+		    }
+		    System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+						
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+}
+
+
+public static void listPolicy()
+{
+	ResultSet rs1;
+	String str1 = "select *  from policies";
+	
+	DBConnections.query = str1;
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		
+		System.out.println("Current policy");
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+		System.out.printf("%20s%20s%20s%40s%n", "Membership Status", "Review Points", "Purchase Points", "Threshold for memberships");
+		while (rs1.next())
+		{
+		    System.out.printf("%20s", rs1.getString(1));
+		    System.out.printf("%20.2f", rs1.getFloat(2));
+		    System.out.printf("%20.2f", rs1.getFloat(3));
+		    System.out.printf("%20.2f%n", rs1.getFloat(4));	    		    
+		    	
+		    }
+		    System.out.println("-----------------------------------------------------------------------------------------------------------------------\n");
+						
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+}
+
+
+public static boolean verifyMembershipStatus(String membership_status)
+{
+	ResultSet rs;
+	String str1 = "select membership_status from policies where membership_status = '" + membership_status + "'";
+	DBConnections.query = str1;	
+	rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	
+	try {
+		 if(rs.isBeforeFirst())
+			 return true;
+		 else return false;
+					
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	return false;
+}
+
+
+public static void updatePolicy(String membership_status, String policy_type, float value)
+	{
+	ResultSet rs;
+	
+	String str = "update policies set " +  policy_type + " = '" + value + "' where membership_status = '" + membership_status + "'";
+			
+	DBConnections.query = str;		
+	int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);	
+	DBConnections.closeDbConnection();	
+	
+	if(ret == 1)
+	{
+		System.out.println("Policy update\n");
+		DBQueries.listPolicy();
+	}
+	
+	}
+
 
 }
 
