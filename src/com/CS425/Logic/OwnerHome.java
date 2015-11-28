@@ -60,11 +60,13 @@ public class OwnerHome {
 				break;
 			}
 			case 6:
-			{
+			{	
+				MovieAdd.addMovieToTheatre();
 				break;
 			}
 			case 7:
 			{
+				MovieAdd.setMovieSchedule();
 				break;
 			}
 			case 8:
