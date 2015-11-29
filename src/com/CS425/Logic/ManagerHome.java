@@ -36,7 +36,7 @@ public class ManagerHome {
 			}
 			case 2:
 			{
-				flag=staffP.setStaffSchedule();
+				flag=staffP.setStaffSchedule(staffD);
 				break;
 			}
 			case 3:

@@ -65,11 +65,11 @@ public class AppHome {
 								String staffType = getStaffType(email);
 								staffD = data.getStaffDetails(email);
 								if(staffType.equalsIgnoreCase("Owner"))
-									OwnerHome.viewOwnerHome(staffD); // implementation pending
+									OwnerHome.viewOwnerHome(staffD); 
 								else if(staffType.equalsIgnoreCase("Manager"))
-									ManagerHome.viewManagerHome(staffD); // implementation pending
+									ManagerHome.viewManagerHome(staffD); 
 								else
-									StaffHome.viewStaff(); // // implementation pending
+									StaffHome.viewStaff(); 
 								break;
 						}
 						break;

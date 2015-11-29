@@ -12,60 +12,90 @@ public class StaffProcessing {
 	Scanner sc = new Scanner(System.in);
 	DBStaffProcessing dbstaff = new DBStaffProcessing();
 
-	public boolean setStaffSchedule() {
-		
+	public boolean setStaffSchedule(StaffDetails staff) {
+
 		boolean exit = true;
-		   int staff_id;
-		   String date;
-		   String startTime;
-		   String endTime;
-		   
-		   while(exit)
-		   {
-			   System.out.println("\n**Staff Schedule Manager**");
-			   System.out.println("Please enter your choice:");
-			   System.out.println("1 - Add Schedule :");
-			   System.out.println("2 - Update Schedule :");
-			   System.out.println("3 - Exit :");
-			   String in = sc.nextLine();
-			   switch (in)
-			   {
-			   case "1" :
-				   System.out.print("Enter the staff ID: ");
-				   staff_id = Integer.parseInt(sc.nextLine());
-				   System.out.print("Enter date in yyyy-mm-dd : ");
-				   date = sc.nextLine();
-				   System.out.print("Enter the start time of the shift in 24hrs  e.g 13.30");
-				   startTime = sc.nextLine();
-				   System.out.print("Enter the end time of the shift in 24hrs  e.g 20.30");
-				   endTime = sc.nextLine();
-				  
-				   //date = date + " 00:00:00";
-				   //addSchedule(staff_id, date, startTime, endTime);
-				   break;
-			
-			   case "2" :
-				   System.out.printf("Enter the staff ID: ");
-				   staff_id = Integer.parseInt(sc.nextLine());
-				   //getSchedule(staff_id);
-				   System.out.println("Enter date in yyyy-mm-dd for which schedule needs to be updated");
-				   date = sc.nextLine();
-				   System.out.println("Enter the start time of the shift in 24hrs  e.g 13.30");
-				   startTime = sc.nextLine();
-				   System.out.println("Enter the end time of the shift in 24hrs  e.g 20.30");
-				   endTime = sc.nextLine();
-				   //updateSchedule(staff_id, date, startTime, endTime);
-					
-				   break;	   
-			   case "3":
-				   exit = false;
-				   break;
-			   default:
-				   System.out.println("Please enter valid input");
-				   break;
-			   }		    
-		   }
-		return exit;  
+		int staff_id;
+		String date;
+		String startTime;
+		String endTime;
+		ArrayList<String> unscheduledStaff = new ArrayList<String>();
+		ArrayList<String> scheduledStaff = new ArrayList<String>();
+		DBStaffProcessing dbStaff = new DBStaffProcessing();
+
+		while(exit)
+		{
+			System.out.println("\n**Staff Schedule Manager**");
+			System.out.println("Please enter your choice:");
+			System.out.println("1 - Set Staff Schedule");
+			System.out.println("2 - Update Staff Schedule");
+			System.out.println("3 - Exit");
+			String in = sc.nextLine();
+			switch (in)
+			{
+			case "1" :
+				unscheduledStaff = dbStaff.getUnscheduledStaffList(staff.getTheatreId(), staff.getStaffId());
+				if(unscheduledStaff.size() == 0){
+					System.out.println("No staff hired.");
+					break;
+				}
+				if(staff.getStaffId() == 1000)
+					System.out.println("Staff currently working in AMC Group of Theater: \nStaff ID\tStaff Name\t Works At");
+				else
+					System.out.println("Staff currently working in your theater: \nStaff ID\tStaff Name\t Works At");
+				for(String temp : unscheduledStaff)
+					System.out.println(temp);
+				while(true){
+					System.out.print("Enter the staff ID: ");
+					staff_id = Integer.parseInt(sc.nextLine());
+					System.out.print("Enter date in yyyy-mm-dd: ");
+					date = sc.nextLine();
+					System.out.print("Enter the start time of the shift in 24hrs  e.g 13.30: ");
+					startTime = sc.nextLine();
+					System.out.print("Enter the end time of the shift in 24hrs  e.g 20.30: ");
+					endTime = sc.nextLine();
+
+					if(dbStaff.addSchedule(staff_id, date, startTime, endTime))
+						break;
+				}
+				break;
+
+			case "2" :
+				scheduledStaff = dbStaff.getScheduledStaffList(staff.getTheatreId(), staff.getStaffId());
+				if(scheduledStaff.size() == 0){
+					System.out.println("Schedule has not been set for any staff. Please set staff schedule first.");
+					break;
+				}
+				if(staff.getStaffId() == 1000)
+					System.out.println("Staff currently working in AMC Group of Theater: \nStaff ID\tStaff Name\t Works At");
+				else
+					System.out.println("Staff currently working in your theater: \nStaff ID\tStaff Name\t Works At");
+				
+				for(String temp : scheduledStaff)
+					System.out.println(temp);
+
+				while(true){
+					System.out.printf("Enter the staff ID: ");
+					staff_id = Integer.parseInt(sc.nextLine());
+					dbStaff.getSchedule(staff_id);
+					System.out.print("Enter date in yyyy-mm-dd for which schedule needs to be updated: ");
+					date = sc.nextLine();
+					System.out.print("Enter the start time of the shift in 24hrs  e.g 13.30: ");
+					startTime = sc.nextLine();
+					System.out.print("Enter the end time of the shift in 24hrs  e.g 20.30: ");
+					endTime = sc.nextLine();
+					if(dbStaff.updateSchedule(staff_id, date, startTime, endTime))
+						break;	   
+				}
+				break;
+			case "3":
+				return true;
+			default:
+				System.out.println("Please enter valid input");
+				break;
+			}		    
+		}
+		return true;
 	}
 
 	public boolean hireStaff(StaffDetails staff) {
@@ -143,13 +173,13 @@ public class StaffProcessing {
 			}
 			else
 				staffD.setTheatreId(staff.getTheatreId());
-			
+
 			System.out.println("Confirm.\n1. Yes\n2. No");
 			if(sc.nextLine().equalsIgnoreCase("No")){
 				System.out.println("Action cancelled");
 				return true;
 			}
-			
+
 			if(dbstaff.insertStaffToDb(staffD)){
 				System.out.println("Staff registered succesfully. Redirecting to home page.\n");
 				try {
