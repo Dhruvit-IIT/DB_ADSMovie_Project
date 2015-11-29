@@ -25,6 +25,7 @@ public class UpdateCreditPolicy {
 					System.out.println("1 : Review Points");
 					System.out.println("2 : Purchase Points");
 					System.out.println("3 : Threshold for memberships");
+					System.out.println("4 : Previous Screen");
 					option = Integer.parseInt(input.nextLine());
 					switch(option)
 					{
@@ -76,6 +77,9 @@ public class UpdateCreditPolicy {
 							System.out.println("Please enter valid membership status");
 							break;
 						}
+						
+						case 4:
+							return;
 						default:
 							System.out.println("Please enter correct option");
 					}

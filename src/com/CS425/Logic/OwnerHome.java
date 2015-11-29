@@ -45,17 +45,20 @@ public class OwnerHome {
 			}
 			case 3:
 			{
-				System.out.println("Under construction");
+				UpdateCreditPolicy ucp = new UpdateCreditPolicy();
+				ucp.updateCreditPolicy();
 				break;
 			}
 			case 4:
 			{
-				
+				ViewRegisteredUserDetails vrud = new ViewRegisteredUserDetails();
+				vrud.viewRegisteredUserDetails();
 				break;
 			}
 			case 5:
 			{
-				
+				ViewAllTables vt = new ViewAllTables();
+				vt.ViewAllTables();
 				break;
 			}
 			case 6:

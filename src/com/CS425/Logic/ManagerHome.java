@@ -41,7 +41,8 @@ public class ManagerHome {
 			}
 			case 3:
 			{
-				System.out.println("Under construction");
+				UpdateCreditPolicy ucp = new UpdateCreditPolicy();
+				ucp.updateCreditPolicy();
 				break;
 			}
 			case 4:
