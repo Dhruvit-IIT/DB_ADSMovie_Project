@@ -3,12 +3,13 @@ package com.CS425.Logic;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import com.CS425.Db.DBQueries;
 import com.CS425.Db.FetchData;
 import com.CS425.bean.UserCCDetails;
 import com.CS425.bean.UserDetails;
 
 public class AppHome {
-	
+
 	final static int GOLD_THRESHOLD = 5000;
 	final static int PLATINUM_THRESHOLD = 10000;
 	final static String UPGRADE_MSG = "**Congratulations!! You have just been promoted to ";
@@ -29,7 +30,7 @@ public class AppHome {
 		FetchData data =  new FetchData();
 		UserDetails userD;
 		UserCCDetails userCC;
-		
+
 		while(!breakWhile){
 			System.out.println("*********Welcome to ADSMovies*********\n");
 			System.out.println("----------Featured Movies-----------");
@@ -50,24 +51,24 @@ public class AppHome {
 					UserHome uHome;
 					if(data.validateUserLogin(email, pass)){
 						String authorityType = getAuthorityType(email);
-						
+
 						switch(authorityType){
-							case "Non-Staff":
-								userD = data.getUserDetails(email);
-								userCC = data.getUserCCDetails(userD.getMemberId());
-								checkMemberShipUpgrade(userD);
-								uHome = new UserHome();
-								uHome.userHomeMenu(userD, userCC);
-								break;
-							case "Staff":
-								String staffType = getStaffType(email);
-								if(staffType.equalsIgnoreCase("Owner"))
-									OwnerHome.viewOwnerHome(); // implementation pending
-								else if(staffType.equalsIgnoreCase("Manager"))
-									ManagerHome.viewManagerHome(); // implementation pending
-								else
-									StaffHome.viewStaff(); // // implementation pending
-								break;
+						case "Non-Staff":
+							userD = data.getUserDetails(email);
+							userCC = data.getUserCCDetails(userD.getMemberId());
+							checkMemberShipUpgrade(userD);
+							uHome = new UserHome();
+							uHome.userHomeMenu(userD, userCC);
+							break;
+						case "Staff":
+							String staffType = getStaffType(email);
+							if(staffType.equalsIgnoreCase("Owner"))
+								OwnerHome.viewOwnerHome(); // implementation pending
+							else if(staffType.equalsIgnoreCase("Manager"))
+								ManagerHome.viewManagerHome(); // implementation pending
+							else
+								StaffHome.viewStaff(); // // implementation pending
+							break;
 						}
 						break;
 					}// if
@@ -106,6 +107,7 @@ public class AppHome {
 				break;
 			case 5:
 				/* Queries result will come here*/
+				executeQueries();
 				break;
 			case 6:
 				System.out.println("Good Bye!!!!");
@@ -114,6 +116,45 @@ public class AppHome {
 				break;
 			} // switch
 		} // while
+	}
+
+	private void executeQueries() {
+		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		int choice;
+		boolean flag = true;
+		while(flag){
+			System.out.println("\nSelect the choice from below");
+			System.out.println("1. Display the theatre showing maximum number of movies");
+			System.out.println("2. Display theatre with maximum number of online ticket sales");
+			System.out.println("3. Display the list of all employees who are on duty on Monday on a specific theatre. "
+					+ "Display also their jobs and time table.");
+			System.out.println("4. Previous screen");
+
+			choice=Integer.parseInt(sc.nextLine());
+
+			switch(choice)
+			{
+			case 1:
+				DBQueries.executeQuery1();
+				break;
+				
+			case 2:
+				DBQueries.executeQuery2();
+				break;
+			
+			case 3:
+				System.out.println("Enter the theatre which you want to view the schedule of employees");
+				String tname=sc.nextLine();
+				DBQueries.executeQuery3(tname);
+				break;
+				
+			case 4:
+				flag=false;
+				break;
+				
+			}//switch
+		}//while
 	}
 
 	private String getStaffType(String email) {
@@ -128,11 +169,11 @@ public class AppHome {
 	}
 
 	private void checkMemberShipUpgrade(UserDetails userD) {
-		
+
 		int memberPoints = userD.getMemberShipPoints();
 		FetchData data = new FetchData();
 		if(memberPoints >= GOLD_THRESHOLD && !userD.getStatus().equalsIgnoreCase("gold") 
-				                          && !userD.getStatus().equalsIgnoreCase("platinum")){
+				&& !userD.getStatus().equalsIgnoreCase("platinum")){
 			data.upgradeMembershipStatus(userD.getMemberId(), "GOLD");
 			System.out.println(UPGRADE_MSG + "Gold status**");
 			System.out.println(BENIFIT_MSG);
@@ -190,9 +231,9 @@ public class AppHome {
 				user = new UserDetails(name, address, phone, dob, email, gender, 0, 0, "Gold", "Staff");
 			else
 				user = new UserDetails(name, address, phone, dob, email, gender, 0, 0, "Silver", "Non-Staff");
-			
+
 			userCC = new UserCCDetails(cardType, cardNumber, expiry, nameOnCard);
-			
+
 			if(data.insertUserDetails(user, userCC) && data.insertUserLoginDetails(email, password)){
 				System.out.println("User registered succesfully. Redirecting to home page.\n");
 				try {

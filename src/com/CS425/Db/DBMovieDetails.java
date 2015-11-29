@@ -84,21 +84,73 @@ public class DBMovieDetails {
 
 		ResultSet rs1 = null;
 		ResultSet rs2=null;
+		
+		float silver=0;
+		DBConnections.query="select purchase_points from policies where membership_status='Silver'";
+		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
 
+		try {
+			while(rs.next())
+			{
+				silver=rs.getFloat(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			DBConnections.closeDbConnection();
+		}
+		
+		float gold=0;
+		DBConnections.query="select purchase_points from policies where membership_status='Gold'";
+		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
 
+		try {
+			while(rs.next())
+			{
+				gold=rs.getFloat(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			DBConnections.closeDbConnection();
+		}
 
+		
+		float platinum=0;
+		DBConnections.query="select purchase_points from policies where membership_status='Platinum'";
+		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+
+		try {
+			while(rs.next())
+			{
+				platinum=rs.getFloat(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			DBConnections.closeDbConnection();
+		}
+
+		
 		String memberStatus=userD.getStatus();
 		int creditPoints = 0;
 		switch(memberStatus)
 		{
 		case "Silver":
-			creditPoints=(int) ((quantity * temp.getPrice())*0.01);
+			creditPoints=(int) ((quantity * temp.getPrice())*silver);
 			break;
 		case "Gold":
-			creditPoints=(int) ((quantity * temp.getPrice())*0.02);
+			creditPoints=(int) ((quantity * temp.getPrice())*gold);
 			break;
 		case "Platinum":
-			creditPoints= (int) ((quantity * temp.getPrice())*0.05);
+			creditPoints= (int) ((quantity * temp.getPrice())*platinum);
+			//System.out.println(creditPoints);
 			break;
 
 		}
@@ -403,7 +455,7 @@ public class DBMovieDetails {
 		DBConnections.query="insert into schedule values('"+schedule+"', "+capacity+", seq_schedule.nextval, "
 							+price+", "+screen_id+", '"+date+"')";
 		
-		System.out.println(DBConnections.query);
+	//	System.out.println(DBConnections.query);
 		int result=DBConnections.openDbConnectionForUpdate(DBConnections.query);
 		if(result==1){
 			return true;
