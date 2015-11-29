@@ -48,6 +48,7 @@ public class AppHome {
 					System.out.print("Enter password: ");
 					pass = sc.nextLine();
 					UserHome uHome;
+					StaffHome sHome;
 					if(data.validateUserLogin(email, pass)){
 						String authorityType = getAuthorityType(email);
 						
@@ -62,11 +63,18 @@ public class AppHome {
 							case "Staff":
 								String staffType = getStaffType(email);
 								if(staffType.equalsIgnoreCase("Owner"))
-									OwnerHome.viewOwnerHome(); // implementation pending
+									OwnerHome.viewOwnerHome(); 
 								else if(staffType.equalsIgnoreCase("Manager"))
-									ManagerHome.viewManagerHome(); // implementation pending
+									ManagerHome.viewManagerHome(); 
 								else
-									StaffHome.viewStaff(); // // implementation pending
+								{
+									userD = data.getUserDetails(email);
+									userCC = data.getUserCCDetails(userD.getMemberId());
+									checkMemberShipUpgrade(userD);
+									sHome = new StaffHome();
+									sHome.staffHomeMenu(userD, userCC);
+								}
+									
 								break;
 						}
 						break;

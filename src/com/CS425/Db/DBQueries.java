@@ -840,5 +840,40 @@ public static void updatePolicy(String membership_status, String policy_type, fl
 	}
 
 
+
+public static void viewStaffSchedule(String email_id)
+{
+	ResultSet rs1, rs2;
+	String str1 = "select ss.day, ss.start_time, ss.end_time from staffschedule ss, STAFFDETAILS sd where ss.staff_id = sd.staff_id and sd.email = '" + email_id + "'"; 
+	
+	DBConnections.query = str1;
+	rs1 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+	try {
+		int count = 0;
+		System.out.println("\nBelow is your schedule");
+		System.out.println("----------------------------------------------\n");
+		System.out.printf("%15s%15s%15s%n", "Day", "Start Time", "End Time");
+		while(rs1.next())
+		{
+			System.out.printf("%15s", rs1.getObject(1).toString());
+			System.out.printf("%15s", rs1.getString(2));
+			System.out.printf("%15s%n", rs1.getString(3));
+			count++;
+		}
+		if(count == 0)
+		{			
+			System.out.println("Your schedule has not been set");
+		}
+	
+		System.out.println("\n");
+				
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally{
+		DBConnections.closeDbConnection();
+	}
+	
+}
 }
 
