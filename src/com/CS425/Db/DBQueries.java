@@ -798,7 +798,7 @@ public static void viewDetailedRegisteredUserDetails(String member_id)
 		    System.out.println("Name : " + rs1.getString(1));
 		    System.out.println("Phone : " + rs1.getString(2));
 		    System.out.println("Address : " + rs1.getString(3));
-		    System.out.println("Date of Birth : " + rs1.getString(4));
+		    System.out.println("Date of Birth : " + rs1.getString(4).substring(0, 10));
 		    System.out.println("E-mail : " + rs1.getString(5));
 		    System.out.println("Gender : " + rs1.getString(6));
 		    System.out.println("Available Credit points : " + rs1.getInt(7));
