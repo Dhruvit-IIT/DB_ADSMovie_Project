@@ -1,10 +1,7 @@
 package com.CS425.Logic;
 
-import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 import com.CS425.Db.DBMovieDetails;
 import com.CS425.bean.MovieInsert;
@@ -63,7 +60,7 @@ public class MovieAdd {
 		boolean dbSuccess = false;
 		Scanner sc=new Scanner(System.in);
 		
-			System.out.println("There are following movies in the theatre\n");
+			System.out.println("There are following movies which are currnetly running:-\n");
 			
 			ArrayList<String> movieList=new ArrayList<>();
 			movieList=DBMovieDetails.displayMovieList();
@@ -72,10 +69,10 @@ public class MovieAdd {
 			{
 				System.out.println(movie);
 			}
-			System.out.println("\nPlease enter the movie");
+			System.out.print("\nPlease enter the movie: ");
 			String name=sc.nextLine();
 			
-			System.out.println("Please Select the theatre from the Below List\n");
+			System.out.print("Please Select the theatre from the Below List:-\n");
 			
 			ArrayList<String> theatreList=new ArrayList<>();
 			
@@ -87,7 +84,7 @@ public class MovieAdd {
 			}
 			
 			String theatreName=sc.nextLine();
-			System.out.println("Please select screen");
+			System.out.println("Please select screen:");
 			
 			ArrayList<String> screenList=new ArrayList<>();
 			
@@ -98,7 +95,7 @@ public class MovieAdd {
 			}
 			int screenNo=Integer.parseInt(sc.nextLine());
 			
-			System.out.println("Please enter the ShowTimes from Below List");
+			System.out.println("Please enter the ShowTimes from Below List:-");
 			System.out.println("1. 9A.M - 12P.M");
 			System.out.println("2. 12P.M - 3P.M");
 			System.out.println("3. 3P.M - 6P.M");
@@ -107,10 +104,10 @@ public class MovieAdd {
 			
 			String schedule=sc.nextLine();
 			
-			System.out.println("Please the the price for one ticket");
+			System.out.print("Please the the price for one ticket: ");
 			int price=Integer.parseInt(sc.nextLine());
 			
-			System.out.println("Please enter the date (MM/DD/YYYY)");
+			System.out.print("Please enter the date (MM/DD/YYYY): ");
 			String date=sc.nextLine();
 			
 			

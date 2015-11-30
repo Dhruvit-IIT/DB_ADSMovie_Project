@@ -11,13 +11,13 @@ import com.CS425.bean.UserDetails;
 
 public class AppHome {
 
-	final static int GOLD_THRESHOLD = 5000;
-	final static int PLATINUM_THRESHOLD = 10000;
+	final static int GOLD_THRESHOLD = new FetchData().getMembershipThreshold("Silver");
+	final static int PLATINUM_THRESHOLD = new FetchData().getMembershipThreshold("Gold");;
 	final static String UPGRADE_MSG = "**Congratulations!! You have just been promoted to ";
 	final static String BENIFIT_MSG = "Now enjoy greater credit points when you purchase a ticket or write a review.";
 
 	public static void main(String args[]){
-
+		
 		AppHome begin = new AppHome();
 		begin.displayAppHomePage();
 	}
@@ -55,18 +55,18 @@ public class AppHome {
 					UserHome uHome;
 					StaffHome sHome;
 					if(data.validateUserLogin(email, pass)){
-						String authorityType = getAuthorityType(email);
+						String authorityType = getAuthorityType(email).toLowerCase();
 
 						switch(authorityType){
 
-							case "Non-Staff":
+							case "non-staff":
 								userD = data.getUserDetails(email);
 								userCC = data.getUserCCDetails(userD.getMemberId());
 								checkMemberShipUpgrade(userD);
 								uHome = new UserHome();
 								uHome.userHomeMenu(userD, userCC);
 								break;
-							case "Staff":
+							case "staff":
 								String staffType = getStaffType(email);
 								staffD = data.getStaffDetails(email);
 								if(staffType.equalsIgnoreCase("Owner"))
@@ -82,7 +82,7 @@ public class AppHome {
 									sHome.staffHomeMenu(userD, userCC);
 								}
 								break;
-						}
+						}//switch
 						break;
 					}// if
 					else{

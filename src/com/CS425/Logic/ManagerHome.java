@@ -2,18 +2,20 @@ package com.CS425.Logic;
 
 import java.util.Scanner;
 
+import com.CS425.Db.FetchData;
 import com.CS425.bean.StaffDetails;
 
 public class ManagerHome {
 	static Scanner sc=new Scanner(System.in);
 	static StaffProcessing staffP = new StaffProcessing();
-	static boolean flag=true;
 	static int option;
-
 
 	public static void viewManagerHome(StaffDetails staffD){
 
-
+		FetchData data = new FetchData();
+		boolean isPriviledgedManager = data.isManagerPriviledged(staffD.getStaffId());
+		boolean flag=true;
+				
 		while(flag){
 			System.out.println("*************Welcome " + staffD.getName() + "**************");
 			System.out.println("----------------------------------------------");
@@ -22,7 +24,12 @@ public class ManagerHome {
 			System.out.println("1 - Hire Staff");
 			System.out.println("2 - Manage Staff Schedule");
 			System.out.println("3 - Set Credit Points Policy");
-			System.out.println("4 - Logout");
+			if(isPriviledgedManager){
+				System.out.println("4 - Set Movie Schedule");
+				System.out.println("5 - Logout");
+			}
+			else 
+				System.out.println("4 - Logout");
 
 			option=Integer.parseInt(sc.nextLine());
 
@@ -46,6 +53,14 @@ public class ManagerHome {
 				break;
 			}
 			case 4:
+			{	
+				if(isPriviledgedManager)
+					MovieAdd.setMovieSchedule();
+				else
+					flag=false;
+				break;
+			}
+			case 5:
 			{
 				flag=false;
 				break;

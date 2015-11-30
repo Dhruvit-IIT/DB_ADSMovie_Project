@@ -301,4 +301,131 @@ public class FetchData {
 		}
 		return sd;
 	}
+
+	public double getCreditPurchasePolicy(String status) {
+		
+		double points = 0;
+		rs = DBConnections.openDbConnectionForSelect("select purchase_points from POLICIES where MEMBERSHIP_status = '" + status + "'");
+		try {
+			while(rs.next()){
+				points = rs.getDouble(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return points;
+	}
+
+	public int getMembershipThreshold(String status) {
+		
+		int threshold = 0;
+		rs = DBConnections.openDbConnectionForSelect("select threshold from POLICIES where MEMBERSHIP_status = '" + status + "'");
+		try {
+			while(rs.next()){
+				threshold = rs.getInt(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		return threshold;
+	}
+
+	public ArrayList<String> getManagers() {
+		
+		ArrayList<String> mList = new ArrayList<String>();
+		query = "select s.staff_id, s.name, t.name from STAFFDETAILS s inner join THEATRE t on s.theatre_id = t.theatre_id where s.description_id = 1011";
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next())
+				mList.add("Staff ID: " + rs.getInt(1) + "\nName: " + rs.getString(2) + "\nWorks At: " +  rs.getString(3));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		return mList;
+	}
+
+	public boolean setPriviledge(int staffId) {
+		
+		String name = "";
+		query = "select * from priviledeges where staff_id = " + staffId;
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				DBConnections.closeDbConnection();
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		
+		query = "select name from staffdetails where staff_id = " + staffId;
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next()){
+				name = rs.getString(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		
+		query = "insert into priviledeges values(" + staffId + " ,'"+ name +"')";
+		DBConnections.openDbConnectionForUpdate(query);
+		DBConnections.closeDbConnection();
+		return true;
+	}
+
+	public boolean removePriviledge(int staffId) {
+		
+		int count = 0;
+		query = "select count(*) from priviledeges where staff_id = " + staffId;
+		rs = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next())
+				count = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		if(count > 0){
+			query = "delete from priviledeges where staff_id = " + staffId;
+			DBConnections.openDbConnectionForUpdate(query);
+			DBConnections.closeDbConnection();
+			return true;
+		}
+		else	
+			return false;
+	}
+
+	public boolean isManagerPriviledged(int staffId) {
+		
+		int count = 0;
+		query = "select count(*) from priviledeges where staff_id = " + staffId;
+		rs  = DBConnections.openDbConnectionForSelect(query);
+		try {
+			while(rs.next())
+				count = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		
+		if(count > 0)
+			return true;
+		return false;
+	}
 }

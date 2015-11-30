@@ -21,7 +21,7 @@ public class TheatreDetails {
 		String address;
 		address = DBTheatreDetails.getTheatreDetails(theatre);
 		boolean ret = true;
-		
+
 		DBQueries.showTheatreReviews(theatre);
 
 		while(ret){
@@ -36,7 +36,7 @@ public class TheatreDetails {
 				System.out.println("5. Reply on Discussion");
 				System.out.println("6. Logout");
 			}
-		
+
 			int choice=Integer.parseInt(sc.nextLine());
 
 			switch(choice)
@@ -47,10 +47,10 @@ public class TheatreDetails {
 				else
 					ret = buyTicketUser(theatre, userD, userCC, sc);
 				break;
-				
+
 			case 2:
-					
-					return true;
+
+				return true;
 			case 3:
 				LikeTheatreComment like = new LikeTheatreComment();
 				like.like(theatre);
@@ -58,16 +58,16 @@ public class TheatreDetails {
 			case 4:
 				CreateTheatreReviewThread review = new CreateTheatreReviewThread();
 				review.createTheatreReviewThread(userD, theatre);
-				
+
 				break;
-				
+
 			case 5:
 				ReplyTheatreReview replyReview = new ReplyTheatreReview();
 				replyReview.replyTheatreReview(userD, theatre);
 				break;
-				
+
 			case 6:
-				
+
 				return false;
 			default:
 				System.out.println("Invalid option. Please enter again.");
@@ -119,16 +119,18 @@ public class TheatreDetails {
 		System.out.println("Confirm\n1. Yes\n2. No");
 		if(sc.nextLine().equalsIgnoreCase("No"))
 			return true;
+		boolean found = false;
 		for(MovieSchedule temp : mScheduleList){
 			if(temp.getMovieName().equals(movieName) && temp.getScheduleTime().equals(time) && temp.getDay().equals(day)){
 				selectedMovie = temp;
+				found = true;
 				break;
 			}
-			else{
-				System.out.println("Invalid details.");
-				return true;
-			}
 		}// for	
+		if(!found){
+			System.out.println("Invalid details.");
+			return true;
+		}
 		if(selectedMovie.getAvailability() < quantity){
 			System.out.println("**Sorry no seats available for the current Movie!!**");
 			return true;
@@ -154,7 +156,7 @@ public class TheatreDetails {
 		}
 
 		System.out.println("\nEnter following details to purchase ticket:");
-		System.out.print("Enter movie name:");
+		System.out.print("Enter movie name: ");
 		String movieName = sc.nextLine();
 		System.out.print("Enter day: ");
 		String day = sc.nextLine();
@@ -162,17 +164,19 @@ public class TheatreDetails {
 		String time = sc.nextLine();
 		System.out.print("Enter quantity: ");
 		int quantity = Integer.parseInt(sc.nextLine());
-
+		
+		boolean found = false;
 		for(MovieSchedule temp : mScheduleList){
 			if(temp.getMovieName().equals(movieName) && temp.getScheduleTime().equals(time) && temp.getDay().equals(day)){
 				selectedMovie = temp;
+				found = true;
 				break;
 			}
-			else{
-				System.out.println("Invalid details.");
-				return true;
-			}
-		}// for
+		}//for
+		if(!found){
+			System.out.println("Invalid details.");
+			return true;
+		}
 		if(selectedMovie.getAvailability() < quantity){
 			System.out.println("**Sorry no seats available for the current Movie!!**");
 			return true;
@@ -208,24 +212,14 @@ public class TheatreDetails {
 
 	public static boolean processPurchase(boolean redeemPoints, MovieSchedule selectedMovie, int quantity, UserDetails userD, UserCCDetails userCC) {
 		// TODO Auto-generated method stub
+		FetchData data = new FetchData();
 		System.out.println("**Processing purchase**\n");
 		Scanner sc=new Scanner(System.in);
-		
-		String memberStatus = userD.getStatus();
+
 		int addCredit = 0;
-		
-		switch(memberStatus){
-		case "Silver":
-			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.01);
-			break;
-		case "Gold":
-			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.02);
-			break;
-		case "Platinum":
-			addCredit = (int)((quantity * selectedMovie.getPrice()) * 0.03);
-			break;
-		}
-		
+		String memberStatus = userD.getStatus();
+		addCredit = (int)((quantity * selectedMovie.getPrice()) * data.getCreditPurchasePolicy(memberStatus));
+
 		if(redeemPoints){
 			if((userD.getCreditPoints())< (selectedMovie.getPrice() * quantity)){
 				System.out.println("Insufficient credit points. Do you wanna purchase via credit card.\n1. Yes\n2. No");

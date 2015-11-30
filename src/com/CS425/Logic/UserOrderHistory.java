@@ -22,7 +22,7 @@ public class UserOrderHistory {
 		if(orderHistory == null)
 			System.out.println("*No order history found.*");
 		else{
-			System.out.println("Order ID\tMovie Name\t\tTheatre Name\t\tTheatre Location\t\tTime\t\tDay\tQuantity\tBooked On");
+			System.out.println("Order ID\tMovie Name\t\tTheatre Name\t\tTheatre Location\t\tTime\t\tDay\t\tQuantity\tBooked On");
 			Iterator<OrderDetails> orderItr = orderHistory.iterator();
 			while(orderItr.hasNext()){
 				order = orderItr.next();
