@@ -245,4 +245,22 @@ public class DBStaffProcessing {
 		}
 	      System.out.println("\n\n");
 	}
+
+	public String getTheatreFromId(int theatreId) {
+		
+		String name = "";
+		DBConnections.query = "select name from THEATRE where theatre_id = " + theatreId;
+		rs = DBConnections.openDbConnectionForSelect(DBConnections.query);
+		try {
+			while(rs.next()){
+				name = rs.getString(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBConnections.closeDbConnection();
+		return name;
+	}
 }

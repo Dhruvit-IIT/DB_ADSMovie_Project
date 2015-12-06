@@ -25,7 +25,7 @@ public class OwnerHome {
 			System.out.println("1 - Hire Staff");
 			System.out.println("2 - Manage Staff Schedule");
 			System.out.println("3 - Set Credit Points Policy");
-			System.out.println("4 - View Registered USers Details");
+			System.out.println("4 - View Registered Users Details");
 			System.out.println("5 - View All Tables");
 			//System.out.println("6 - Add Movie to the Theatre");
 			System.out.println("6 - Set Movie Schedule");
@@ -71,7 +71,7 @@ public class OwnerHome {
 			}*/
 			case 6:
 			{
-				MovieAdd.setMovieSchedule();
+				MovieAdd.setMovieSchedule(staffD);
 				break;
 			}
 			case 7:
