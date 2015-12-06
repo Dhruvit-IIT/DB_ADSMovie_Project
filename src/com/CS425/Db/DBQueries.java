@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class DBQueries
 {
@@ -555,7 +556,7 @@ public class DBQueries
 	}
 
 
-	public static void executeQuery1() {
+	public static void executeQuery6() {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		DBConnections.query="select name from theatre where theatre_id "
@@ -583,7 +584,7 @@ public class DBQueries
 	}
 
 
-	public static void executeQuery2() {
+	public static void executeQuery7() {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		DBConnections.query="select name from theatre where theatre_id in"
@@ -609,7 +610,7 @@ public class DBQueries
 	}
 
 
-	public static void executeQuery3(String tname) {
+	public static void executeQuery8(String tname) {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 
@@ -930,6 +931,201 @@ public class DBQueries
 			e.printStackTrace();
 		} finally{
 			DBConnections.closeDbConnection();
+		}
+
+	}
+	
+	
+	
+	
+	public static void executeQuery2()
+	{
+		ResultSet rs2, rs3;
+				
+		String str2 = "select r.review_id , u.name , r.like_count , r.review_content from review r,userregistration u where r.MEMBER_ID = u.MEMBER_ID";
+
+		DBConnections.query = str2;	
+		rs2 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+		try {
+			System.out.println();
+			if(rs2.isBeforeFirst() )
+			{
+				//System.out.println("Below are the reviews posted on this movie by our members: \n");	
+				//System.out.println("---------------------------------------------------------------------------------------");
+				while(rs2.next())
+				{
+
+					int reviewId = rs2.getInt(1);
+					System.out.println("Review Number : " +reviewId);
+					System.out.println(rs2.getString(4) + "\tBy [" + rs2.getString(2) + "]");
+					System.out.println("Likes : " + rs2.getInt(3));
+
+
+					String str3 = "select u.name, r.reply_content from reviewreply r, userregistration u where r.member_id = u.member_id and r.review_id = " + reviewId + " and rownum<=3";
+					DBConnections.query = str3;	
+					rs3 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+					if(rs3.isBeforeFirst() )
+					{
+						System.out.println("\t\tReplies:");
+						while(rs3.next())
+						{
+							System.out.println("\t\t" + rs3.getString(2) + "\tBy [" + rs3.getString(1) + "]");
+
+						}
+
+					}
+
+					System.out.println("---------------------------------------------------------------------------------------");
+				} 
+			}
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally{
+			DBConnections.closeDbConnection();
+		}
+
+	}
+	
+	public static void executeQuery1()
+	{
+		ResultSet rs1, rs2, rs3;
+				
+		String str2 = "select r.review_id , u.name , r.like_count , r.review_content from review r,userregistration u where r.MEMBER_ID = u.MEMBER_ID";
+
+		DBConnections.query = str2;	
+		rs2 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+		try {
+			System.out.println();
+			if(rs2.isBeforeFirst() )
+			{
+				System.out.println("Below are all the reviews posted by our members: \n");	
+				//System.out.println("---------------------------------------------------------------------------------------");
+				while(rs2.next())
+				{
+
+					int reviewId = rs2.getInt(1);
+					System.out.println("Review Number : " +reviewId);
+					System.out.println(rs2.getString(4) + "\tBy [" + rs2.getString(2) + "]");
+					System.out.println("Likes : " + rs2.getInt(3));
+					System.out.println("---------------------------------------------------------------------------------------");
+				} 
+			}
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally{
+			DBConnections.closeDbConnection();
+		}
+		
+		
+		try {
+			System.out.println("Please enter the Review Number to watch three latest comments : ");
+			Scanner in = new Scanner(System.in);
+			int review_id = Integer.parseInt(in.nextLine());
+			String str3 = "select u.name, r.reply_content from reviewreply r, userregistration u where r.member_id = u.member_id and r.review_id = " + review_id + " and rownum<=3";
+			DBConnections.query = str3;	
+			rs3 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+			if(rs3.isBeforeFirst() )
+			{
+				System.out.println("\t\tReplies:");
+				while(rs3.next())
+				{
+					System.out.println("\t\t" + rs3.getString(2) + "\tBy [" + rs3.getString(1) + "]");
+
+				}
+
+			}
+			else 
+				System.out.println("No comments has been posted on this review thread\n");
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally{
+			DBConnections.closeDbConnection();
+		}
+
+	}
+	
+	
+	public static void executeQuery3()
+	{
+		ResultSet rs2;
+				
+		String str2 = "select r.review_id, u.name , r.like_count , r.review_content from review r , userregistration u where r.MEMBER_ID = u.MEMBER_ID and (r.review_id not in (select review_id from reviewreply) or r.review_id in (select review_id from reviewreply group by review_id having count(reply_content) = (select min(count(reply_content)) from reviewreply group by review_id))) and rownum <=1 order by r.review_id desc";
+		
+		DBConnections.query = str2;	
+		rs2 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+		try {
+				System.out.println("\nBelow is the least popular review thread : ");	
+				System.out.println("---------------------------------------------------------------------------------------");
+				while(rs2.next())
+				{
+	
+					int reviewId = rs2.getInt(1);
+					System.out.println("Review Number : " +reviewId);
+					System.out.println(rs2.getString(4) + "\tBy [" + rs2.getString(2) + "]");
+					System.out.println("Likes : " + rs2.getInt(3));
+					System.out.println("---------------------------------------------------------------------------------------");
+				} 
+			
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally{
+			DBConnections.closeDbConnection();
+		}
+		
+
+	}
+	
+	public static void executeQuery5()
+	{
+		ResultSet rs2;
+				
+		String str2 = "select u.name, sub.c from (select member_id, count(member_id)c from (select member_id from review union all select member_id from reviewreply) group by member_id having count(member_id) = (select max(count(member_id)) from (select member_id from review union all select member_id from reviewreply) group by member_id))sub, userregistration u where u.MEMBER_ID = sub.member_id" ;
+		
+		DBConnections.query = str2;	
+		rs2 = DBConnections.openDbConnectionForSelect(DBConnections.query);
+		try {
+				System.out.println("\nBelow is the registered guest who has contributed most comments : ");	
+				System.out.println("---------------------------------------------------------------------------------------");
+				while(rs2.next())
+				{
+	
+					
+					System.out.println("Name : " + rs2.getString(1));
+					System.out.println("Number of comments : " + rs2.getInt(2));
+					System.out.println("---------------------------------------------------------------------------------------");
+				} 
+			
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally{
+			DBConnections.closeDbConnection();
+		}
+		
+
+	}
+	
+	public static void updateTable(String query)
+	{
+				
+		ResultSet rs1;
+		DBConnections.query = query;
+		int ret = DBConnections.openDbConnectionForUpdate(DBConnections.query);
+
+		DBConnections.closeDbConnection();
+
+		if(ret == 1)
+		{
+			System.out.println("Query executed Successfully\n");
 		}
 
 	}

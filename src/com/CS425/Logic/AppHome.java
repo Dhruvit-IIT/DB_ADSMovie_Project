@@ -73,6 +73,8 @@ public class AppHome {
 									OwnerHome.viewOwnerHome(staffD); 
 								else if(staffType.equalsIgnoreCase("Manager"))
 									ManagerHome.viewManagerHome(staffD);
+								else if (staffType.equalsIgnoreCase("WEB ADMIN"))
+									WebAdminHome.webAdminHome(staffD);
 								else
 								{
 									userD = data.getUserDetails(email);
@@ -138,11 +140,17 @@ public class AppHome {
 		boolean flag = true;
 		while(flag){
 			System.out.println("\nSelect the choice from below");
-			System.out.println("1. Display the theatre showing maximum number of movies");
-			System.out.println("2. Display theatre with maximum number of online ticket sales");
-			System.out.println("3. Display the list of all employees who are on duty on Monday on a specific theatre. "
+			System.out.println("1. Display the 3 most recent discussions/comments from a specific discussion thread");
+			System.out.println("2. Display the 3 most recent discussion/comments from all discussion threads");
+			System.out.println("3. Display the least popular discussion thread in terms of visits and comments");
+			//System.out.println("4. Display an alert to a registered guest when his membership status has changed");
+			System.out.println("5. Display the registered guest who has contributed most comments");
+			System.out.println("6. Display the theatre showing maximum number of movies");
+			System.out.println("7. Display theatre with maximum number of online ticket sales");
+			System.out.println("8. Display the list of all employees who are on duty on Monday on a specific theatre. "
 					+ "Display also their jobs and time table.");
-			System.out.println("4. Previous screen");
+			//System.out.println("9. Send an alert to the owner and manager if no employee with the job of security is scheduled to work tomorrow");
+			System.out.println("10. Previous screen");
 
 			choice=Integer.parseInt(sc.nextLine());
 
@@ -151,20 +159,33 @@ public class AppHome {
 			case 1:
 				DBQueries.executeQuery1();
 				break;
-				
 			case 2:
 				DBQueries.executeQuery2();
-				break;
-			
+				break;	
 			case 3:
-				System.out.println("Enter the theatre which you want to view the schedule of employees");
-				String tname=sc.nextLine();
-				DBQueries.executeQuery3(tname);
+				DBQueries.executeQuery3();
+				break;
+			case 5:
+				DBQueries.executeQuery5();
+				break;	
+			case 6:
+				DBQueries.executeQuery6();
 				break;
 				
-			case 4:
+			case 7:
+				DBQueries.executeQuery7();
+				break;
+			
+			case 8:
+				System.out.println("Enter the theatre which you want to view the schedule of employees");
+				String tname=sc.nextLine();
+				DBQueries.executeQuery8(tname);
+				break;
+				
+			case 10:
 				flag=false;
 				break;
+			
 				
 			}//switch
 		}//while
