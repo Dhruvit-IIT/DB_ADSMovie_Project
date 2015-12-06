@@ -314,7 +314,6 @@ public class DBMovieDetails {
 			}
 
 			query = "insert into guestorder values ("+ order_id +", '"+email+"', '"+ phone +"')";
-			System.out.println(query);
 			result = DBConnections.openDbConnectionForUpdate(query);
 			DBConnections.closeDbConnection();
 
@@ -344,7 +343,7 @@ public class DBMovieDetails {
 	public static ArrayList<String> displayMovieList() {
 		
 		ArrayList<String> mList=new ArrayList<>();
-		DBConnections.query="Select title from movie";
+		DBConnections.query="Select title from movie where now_showing = 1";
 		rs=DBConnections.openDbConnectionForSelect(DBConnections.query);
 		try {
 			while(rs.next())

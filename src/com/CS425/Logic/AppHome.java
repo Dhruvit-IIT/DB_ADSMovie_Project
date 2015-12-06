@@ -36,7 +36,7 @@ public class AppHome {
 		
 
 		while(!breakWhile){
-			System.out.println("*********Welcome to ADSMovies*********\n");
+			System.out.println("*********Welcome to AMC Movies*********\n");
 			System.out.println("----------Featured Movies-----------");
 			data.appHomeMovieReco();
 			System.out.println("------------------------------------\n");

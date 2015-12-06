@@ -135,13 +135,13 @@ public class MovieDetailSchedule {
 		
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("\n**Booking Details**");
-		System.out.print("Enter the theatre Name");
+		System.out.print("Enter the theatre Name: ");
 		name=sc.nextLine();
-		System.out.print("Enter time:");
+		System.out.print("Enter time: ");
 		time=sc.nextLine();
-		System.out.print("Enter quantity");
+		System.out.print("Enter quantity: ");
 		quantity=Integer.parseInt(sc.nextLine());
-		System.out.print("Enter the day");
+		System.out.print("Enter the day: ");
 		day=sc.nextLine();
 
 
@@ -170,16 +170,16 @@ public class MovieDetailSchedule {
 		
 		Scanner sc=new Scanner(System.in);
 		System.out.println("**Personal Details**");
-		System.out.print("\nEnter your name");
+		System.out.print("\nEnter your name: ");
 		String name=sc.nextLine();
-		System.out.print("Enter your email");
+		System.out.print("Enter your email: ");
 		String email=sc.nextLine();
-		System.out.print( "Enter yout phone number");
+		System.out.print( "Enter yout phone number: ");
 		String phone=sc.nextLine();
 		System.out.println("**Credit Card Details**");
-		System.out.print("Enter your 16 Digit Credit Card number");
+		System.out.print("Enter your 16 Digit Credit Card number: ");
 		String cc=sc.nextLine();
-		System.out.print("Enter your expiry(MM/YY)");
+		System.out.print("Enter your expiry(MM/YY): ");
 		String expiry=sc.nextLine();
 		
 		
