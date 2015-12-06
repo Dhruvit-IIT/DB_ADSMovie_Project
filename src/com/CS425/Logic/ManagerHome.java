@@ -55,7 +55,7 @@ public class ManagerHome {
 			case 4:
 			{	
 				if(isPriviledgedManager)
-					MovieAdd.setMovieSchedule();
+					MovieAdd.setMovieSchedule(staffD);
 				else
 					flag=false;
 				break;
