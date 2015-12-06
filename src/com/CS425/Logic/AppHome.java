@@ -13,7 +13,7 @@ public class AppHome {
 
 	final static int GOLD_THRESHOLD = new FetchData().getMembershipThreshold("Silver");
 	final static int PLATINUM_THRESHOLD = new FetchData().getMembershipThreshold("Gold");;
-	final static String UPGRADE_MSG = "**Congratulations!! You have just been promoted to ";
+	final static String UPGRADE_MSG = "**Congratulations!!! You have just been promoted to ";
 	final static String BENIFIT_MSG = "Now enjoy greater credit points when you purchase a ticket or write a review.";
 
 	public static void main(String args[]){
