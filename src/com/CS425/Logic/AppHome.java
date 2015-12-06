@@ -143,14 +143,12 @@ public class AppHome {
 			System.out.println("1. Display the 3 most recent discussions/comments from a specific discussion thread");
 			System.out.println("2. Display the 3 most recent discussion/comments from all discussion threads");
 			System.out.println("3. Display the least popular discussion thread in terms of visits and comments");
-			//System.out.println("4. Display an alert to a registered guest when his membership status has changed");
-			System.out.println("5. Display the registered guest who has contributed most comments");
-			System.out.println("6. Display the theatre showing maximum number of movies");
-			System.out.println("7. Display theatre with maximum number of online ticket sales");
-			System.out.println("8. Display the list of all employees who are on duty on Monday on a specific theatre. "
+			System.out.println("4. Display the registered guest who has contributed most comments");
+			System.out.println("5. Display the theatre showing maximum number of movies");
+			System.out.println("6. Display theatre with maximum number of online ticket sales");
+			System.out.println("7. Display the list of all employees who are on duty on Monday on a specific theatre. "
 					+ "Display also their jobs and time table.");
-			//System.out.println("9. Send an alert to the owner and manager if no employee with the job of security is scheduled to work tomorrow");
-			System.out.println("10. Previous screen");
+			System.out.println("8. Previous screen");
 
 			choice=Integer.parseInt(sc.nextLine());
 
@@ -165,24 +163,24 @@ public class AppHome {
 			case 3:
 				DBQueries.executeQuery3();
 				break;
-			case 5:
+			case 4:
 				DBQueries.executeQuery5();
 				break;	
-			case 6:
+			case 5:
 				DBQueries.executeQuery6();
 				break;
 				
-			case 7:
+			case 6:
 				DBQueries.executeQuery7();
 				break;
 			
-			case 8:
+			case 7:
 				System.out.println("Enter the theatre which you want to view the schedule of employees");
 				String tname=sc.nextLine();
 				DBQueries.executeQuery8(tname);
 				break;
 				
-			case 10:
+			case 8:
 				flag=false;
 				break;
 			
